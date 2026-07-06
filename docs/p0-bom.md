@@ -34,7 +34,7 @@ backups if Mouser checkout rejects KZ.
 
 | Shop | Price | Stock (2026-07-06) | Ships to KZ? | Link |
 |---|---|---|---|---|
-| **RadioMart** (Karaganda, local) | 59 000 ₸ ≈ **$105–115** | out of stock, **pre-order** ✗ | **local — pickup in Karaganda, delivery countrywide ✓** | [radiomart.kz](https://radiomart.kz/teensy/6016-plata-teensy-41-bez-pin.html) |
+| **RadioMart** (Karaganda, local) | 59 000 ₸ ≈ **$105–115** | out of stock — **ask if back-order possible** ✗ | **local — pickup in Karaganda, delivery countrywide ✓** | [radiomart.kz](https://radiomart.kz/teensy/6016-plata-teensy-41-bez-pin.html) |
 | **Electrokit** (SE) | 379 SEK ≈ $36 (VAT off on export) | **54 in stock**, 1–3 d ✓ | Nordic+EU listed — **email to confirm** | [electrokit.com](https://www.electrokit.com/en/product/teensy-4-1/) |
 | **Opencircuit** (NL) | €44.50 (€36.80 ex-VAT) | in stock, 5–7 d ✓ | not stated — email info@opencircuit.nl | [opencircuit.shop](https://opencircuit.shop/Product/Teensy-4.1) |
 | **Pimoroni** (UK) | £23 | out of stock ✗ | **worldwide shipping ✓** | [shop.pimoroni.com](https://shop.pimoroni.com/en-us/products/teensy-4-1) |
@@ -43,10 +43,12 @@ backups if Mouser checkout rejects KZ.
 All presented as genuine PJRC/SparkFun (`DEV-16771` / `TEENSY41`); AliExpress
 excluded — $2–15 "Teensy" listings are documented counterfeits that fail under
 vibration. There's a real Teensy 4.1 supply crunch (SparkFun + Pimoroni + RadioMart
-all dry). **Recommended play:** pre-order from **RadioMart** (local — no customs
-or export screening; ~$75 premium worth it to remove KZ-delivery risk; confirm
-genuine PJRC + warranty + lead time first) **and** email Electrokit/Opencircuit
-in parallel — take whichever delivers a genuine board first. The "no pins"
+all dry). **Recommended play:** ask **RadioMart** whether a back-order is possible (local —
+no customs or export screening; ~$75 premium worth it to remove KZ-delivery
+risk; confirm genuine PJRC + warranty + lead time, and that they'll sell 1–2
+units) **and** email Electrokit/Opencircuit in parallel — take whichever
+delivers a genuine board first. If RadioMart has no back-order, the EU shops
+become primary. The "no pins"
 variant is fine (solder wires directly — more robust under vibration than
 headers). Set a Pimoroni back-in-stock alert as the worldwide fallback.
 
@@ -60,7 +62,7 @@ sale@plaza.kz) can special-order; Taiwan has no franchised intl-retail route
 | Batch | Contents | Lead time |
 |---|---|---|
 | **1a — Mouser** | sensor eval board (EVAL-ADXL1002Z) | ~3–7 business days (FedEx/UPS) + customs |
-| **1b — RadioMart (local) or Electrokit** (separate order — Teensy not on Mouser) | Teensy 4.1 | RadioMart pre-order (local, no customs) // EU ~1–2 wk pending KZ confirm — order in parallel |
+| **1b — RadioMart (local) or Electrokit** (separate order — Teensy not on Mouser) | Teensy 4.1 | RadioMart back-order if offered (local, no customs) // EU ~1–2 wk pending KZ confirm — pursue in parallel |
 | **2 — Local Karaganda / KZ marketplaces** (satu.kz, kaspi.kz, tomas.kz, OLX) | test bearings, bench grinder, Loctite, tachometer, USB cable | same day – 5 days |
 | **3 — AliExpress batch** (cheap, slow — order day 1) | magnet base, coax + BNC, spare reflective tape | ~10–25 days |
 
@@ -132,8 +134,9 @@ items `required: false`.
 
 1. **Sensor:** cart EVAL-ADXL1002Z on Mouser (already located from KZ); confirm
    the Kazakhstan address is accepted at checkout + get the shipping quote.
-2. **Teensy:** contact RadioMart (local, Karaganda) for pre-order lead time +
-   genuine-PJRC/warranty confirmation, **and** in parallel email Electrokit
+2. **Teensy:** ask RadioMart (local, Karaganda) whether a back-order is possible
+   + lead time + genuine-PJRC/warranty + that they'll sell 1–2 units, **and** in
+   parallel email Electrokit
    (info@electrokit.se) / Opencircuit (info@opencircuit.nl) to confirm KZ
    shipping. Order from whichever delivers a genuine board first; set a Pimoroni
    back-in-stock alert as the worldwide fallback. Do **not** look on
