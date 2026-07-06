@@ -7,10 +7,14 @@ Validate the detector on a labeled Case Western Reserve (CWRU) bearing file.
 
 ```bash
 python scripts/validate_cwru.py data/<file>.mat --fs 12000 --rpm 1772 --plot
+# ball faults need the sensitive baseline-relative mode:
+python scripts/validate_cwru.py data/119.mat --baseline data/98.mat
 ```
-Prints the bearing defect frequencies, per-element scores, and the likely fault; with
-`--plot`, shows the envelope spectrum with BPFO/BPFI/BSF marked. A correctly-labeled
-faulted file should rank its matching element first.
+Prints defect frequencies, per-element scores, harmonic SNR, and a
+`HEALTHY / SUSPECT / FAULTED` verdict with margin; with `--plot`, shows the envelope
+spectrum with BPFO/BPFI/BSF marked. `--baseline <healthy.mat>` compares against a
+healthy capture of the same rig (the product-mode path — required to catch the
+smeared combs of ball faults).
 
 ## Planned
 - `validate_ims.py` — NASA IMS run-to-failure (trend the score over the run to the failure).

@@ -1,6 +1,7 @@
 """Bearing-health detection core: defect frequencies, envelope analysis, features."""
 
 from .bearing import bearing_freqs
+from .detect import detect, harmonic_snr
 from .envelope import classify, defect_score, envelope_spectrum
 from .features import crest_factor, kurtosis, rms, velocity_rms_iso
 
@@ -9,6 +10,8 @@ __all__ = [
     "envelope_spectrum",
     "defect_score",
     "classify",
+    "detect",
+    "harmonic_snr",
     "rms",
     "crest_factor",
     "kurtosis",

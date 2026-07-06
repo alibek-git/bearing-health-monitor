@@ -21,7 +21,7 @@ from scipy.io import loadmat
 
 # allow `python scripts/validate_cwru.py` from the repo root
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from analysis import bearing_freqs, classify, envelope_spectrum  # noqa: E402
+from analysis import bearing_freqs, classify, detect, envelope_spectrum  # noqa: E402
 
 
 def load_de_signal(path):
@@ -40,6 +40,8 @@ def main():
     ap.add_argument("--rpm", type=float, default=1772, help="shaft speed")
     ap.add_argument("--band", type=float, nargs=2, default=(2000.0, 5000.0),
                     help="envelope band-pass (Hz); upper edge must be < fs/2")
+    ap.add_argument("--baseline", help="healthy .mat of the same rig; enables the far "
+                    "more sensitive baseline-relative mode (catches ball faults)")
     ap.add_argument("--plot", action="store_true", help="plot the envelope spectrum")
     args = ap.parse_args()
 
@@ -47,13 +49,26 @@ def main():
     # CWRU drive-end bearing: SKF 6205-2RS JEM — 9 balls, ball 7.94 mm, pitch 39.04 mm
     freqs = bearing_freqs(args.rpm, n_balls=9, ball_dia=7.94, pitch_dia=39.04)
     f, amp = envelope_spectrum(x, args.fs, band=tuple(args.band))
-    scores = classify(f, amp, freqs)
+
+    baseline = None
+    if args.baseline:
+        xb = load_de_signal(args.baseline)
+        fb, ab = envelope_spectrum(xb, args.fs, band=tuple(args.band))
+        baseline = classify(fb, ab, freqs)
+
+    det = detect(f, amp, freqs, baseline=baseline)
 
     print(f"file: {args.matfile}  samples={x.size}  fs={args.fs}  rpm={args.rpm}")
     print("defect freqs (Hz):", {k: round(v, 1) for k, v in freqs.items()})
-    ranked = sorted(scores.items(), key=lambda kv: -kv[1])
-    print("scores:", {k: round(v, 5) for k, v in ranked})
-    print("LIKELY FAULT:", ranked[0][0])
+    print("scores:", {k: round(v, 5) for k, v in
+                      sorted(det["scores"].items(), key=lambda kv: -kv[1])})
+    print("harmonic SNR:", {k: round(v, 1) for k, v in
+                            sorted(det["snr"].items(), key=lambda kv: -kv[1])})
+    if det["ratios"] is not None:
+        print("vs baseline:", {k: round(v, 1) for k, v in
+                               sorted(det["ratios"].items(), key=lambda kv: -kv[1])})
+    who = f" — likely {det['element']}" if det["element"] else ""
+    print(f"VERDICT: {det['verdict'].upper()}{who}  (margin {det['margin']:.2f}x alarm)")
 
     if args.plot:
         import matplotlib.pyplot as plt
@@ -63,7 +78,7 @@ def main():
             plt.axvline(freqs[name], ls="--", alpha=0.6, label=name)
         plt.xlim(0, max(freqs["BPFI"] * 4, 500))
         plt.xlabel("Hz"); plt.ylabel("envelope amplitude"); plt.legend()
-        plt.title(f"Envelope spectrum — likely {ranked[0][0]}")
+        plt.title(f"Envelope spectrum — {det['verdict']}{who}")
         plt.tight_layout(); plt.show()
 
 

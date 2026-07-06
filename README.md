@@ -10,9 +10,15 @@ go-to-market, unit economics, risks, and the **P0 technical spec** live in
 
 ## Status
 
-**P0 — validate the core claim.** Prove that off-the-shelf vibration + envelope
-analysis cleanly detects a *known* bearing defect: first on public labeled datasets,
-then on one real machine. No product hardware yet. ~$150, ~2–4 weeks.
+**P0 Step 1 (public-data validation): done for race faults.** On the CWRU 1772-rpm
+drive-end set the detector reads the normal file *healthy* and nails the outer-race
+(SNR 167) and inner-race (SNR 56) faults baseline-free; the known-hard 0.007″ ball
+fault reads *suspect* baseline-free and *faulted* (50× margin) against a healthy
+baseline. Details in [`analysis/README.md`](analysis/README.md); regression-guarded
+by `pytest tests/`.
+
+**Next:** ball-fault scoring (2×BSF + sidebands, 48 kHz data), IMS run-to-failure
+trending, then P0 Step 2 — the ~$150 field rig on one real machine.
 
 ## Layout
 
@@ -29,12 +35,16 @@ then on one real machine. No product hardware yet. ~$150, ~2–4 weeks.
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-# download a CWRU drive-end .mat into data/, then:
-python scripts/validate_cwru.py data/<file>.mat --fs 12000 --rpm 1772
+pytest tests/                       # synthetic regression tests (no data needed)
+# download CWRU drive-end .mat files into data/
+# (https://engineering.case.edu/sites/default/files/<n>.mat — 98, 106, 119, 131), then:
+python scripts/validate_cwru.py data/131.mat --fs 12000 --rpm 1772
+pytest tests/                       # now also runs the CWRU validation tests
 ```
 
-It prints the bearing defect frequencies, per-element scores, and the likely fault,
-and plots the envelope spectrum with the defect peaks marked.
+It prints the bearing defect frequencies, per-element scores/SNR, and a
+`HEALTHY / SUSPECT / FAULTED` verdict with margin; `--plot` shows the envelope
+spectrum with the defect peaks marked.
 
 ## How it works (the core IP)
 
