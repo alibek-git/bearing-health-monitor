@@ -90,19 +90,22 @@ def test_rejects_evidence_free_verdicts():
         detect(f, amp, FREQS, baseline={"BPFO": 1.0, "BPFI": 1.0, "FTF": 1.0})
 
 
-def synthetic_pair(fs=51200, seconds=1.0, seed=0):
+def synthetic_pair(fs=51200, seconds=1.0, seed=0, noise=0.35):
     """(healthy, faulted) accelerations: broadband noise + shaft 1x, and the same
-    plus a BPFO impact train ringing a 3.8 kHz resonance."""
+    plus a BPFO impact train ringing a 3.8 kHz resonance. ``noise=0.35`` puts the
+    faulted comb comfortably past the alarm threshold (robust SNR ~15) while the
+    healthy leg stays at the noise floor — this tests the pipeline, not the
+    threshold knife-edge."""
     t = np.arange(int(fs * seconds)) / fs
     rng = np.random.default_rng(seed)
     shaft = 0.2 * np.sin(2 * np.pi * FREQS["fr"] * t)
-    healthy = 0.5 * rng.standard_normal(t.size) + shaft
+    healthy = noise * rng.standard_normal(t.size) + shaft
     impacts = np.zeros_like(t)
     for k in range(int(seconds * FREQS["BPFO"])):
         d = t - k / FREQS["BPFO"]
         m = d >= 0
         impacts[m] += np.exp(-d[m] / 8e-4) * np.sin(2 * np.pi * 3800.0 * d[m])
-    faulted = impacts + 0.5 * rng.standard_normal(t.size) + shaft
+    faulted = impacts + noise * rng.standard_normal(t.size) + shaft
     return healthy, faulted
 
 

@@ -23,27 +23,34 @@ from __future__ import annotations
 
 import numpy as np
 
+from .bearing import fault_lines
 from .envelope import classify
 
 _RANK = {"healthy": 0, "suspect": 1, "faulted": 2}
 
 
-def harmonic_snr(f, amp, target, n_harmonics=4, tol=0.01, floor_span=0.12):
-    """Energy at ``target`` + harmonics relative to the local envelope noise floor.
+def comb_snr(f, amp, lines, tol=0.01, floor_span=0.12, robust=True):
+    """Energy at a set of expected spectral lines relative to the local noise floor.
 
-    For each harmonic: the peak amplitude within ``+-tol`` (fractional) of it, and
-    the median amplitude of a surrounding window (``+-floor_span`` of the harmonic,
-    peak bins excluded) as the local floor. Returns ``sum(peaks) / sum(floors)`` —
-    roughly 1-3 for noise, order 10-100 for a real defect comb.
+    For each line: the peak amplitude within ``+-tol`` (fractional) of it, and the
+    median amplitude of a surrounding window (``+-floor_span`` of the line) as the
+    local floor. Returns ``sum(peaks) / sum(floors)`` — roughly 1-3 for noise,
+    order 10-100 for a real defect comb. Lines beyond the spectrum are skipped.
+
+    ``robust`` drops the single strongest line (when >=2 are evaluable) before
+    aggregating: a real fault shows a *distributed* comb and keeps its value (a
+    uniform comb is exactly unchanged), while a lone machine tone or noise spike
+    coinciding with one expected line collapses toward 1. This is what keeps the
+    band-search (:func:`analysis.kurtogram.pick_band`) from manufacturing false
+    alarms out of stationary interference.
     """
     f = np.asarray(f, dtype=float)
     amp = np.asarray(amp, dtype=float)
     df = (f[1] - f[0]) if len(f) > 1 else 1.0
     peaks, floors = [], []
-    for h in range(1, n_harmonics + 1):
-        ft = target * h
+    for ft in lines:
         if ft <= 0 or ft >= f[-1]:
-            break
+            continue
         half = max(tol * ft, df)
         span = max(floor_span * ft, 25 * df)  # guarantee enough floor bins near DC
         pk = np.abs(f - ft) <= half
@@ -54,7 +61,17 @@ def harmonic_snr(f, amp, target, n_harmonics=4, tol=0.01, floor_span=0.12):
         floors.append(float(np.median(amp[fl])))
     if not peaks:
         return 0.0
+    if robust and len(peaks) >= 2:
+        i = int(np.argmax(peaks))
+        peaks.pop(i)
+        floors.pop(i)
     return float(sum(peaks) / max(sum(floors), 1e-30))
+
+
+def harmonic_snr(f, amp, target, n_harmonics=4, tol=0.01, floor_span=0.12):
+    """:func:`comb_snr` over a plain harmonic series of ``target``."""
+    return comb_snr(f, amp, [target * h for h in range(1, n_harmonics + 1)],
+                    tol, floor_span)
 
 
 def _zone(value, warn, alarm):
@@ -83,7 +100,8 @@ def detect(f, amp, freqs, n_harmonics=4, warn=4.0, alarm=10.0,
       verdict  - "healthy" | "suspect" | "faulted"
       element  - failing element ("BPFO"/"BPFI"/"BSF"/"FTF"), None when healthy
       margin   - top statistic / its alarm threshold (>=1 means alarm-level)
-      snr      - per-element harmonic SNR (baseline-free evidence)
+      snr      - per-element comb SNR over its physics-informed line set
+                 (baseline-free evidence; see analysis.bearing.fault_lines)
       scores   - per-element defect scores (``classify`` output)
       ratios   - per-element score / baseline score, or None without a baseline
     """
@@ -91,7 +109,8 @@ def detect(f, amp, freqs, n_harmonics=4, warn=4.0, alarm=10.0,
     if not np.all(np.isfinite(amp)):
         raise ValueError("envelope spectrum contains non-finite values — reject the capture")
 
-    snr = {k: harmonic_snr(f, amp, v, n_harmonics) for k, v in freqs.items() if k != "fr"}
+    snr = {k: comb_snr(f, amp, lines)
+           for k, lines in fault_lines(freqs, n_harmonics).items()}
     if all(v == 0.0 for v in snr.values()):
         raise ValueError("no defect frequency falls inside the spectrum — check fs/rpm/geometry")
     scores = classify(f, amp, freqs, n_harmonics)

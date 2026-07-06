@@ -2,7 +2,7 @@
 
 import pytest
 
-from analysis import bearing_freqs
+from analysis import bearing_freqs, fault_lines
 
 
 def test_cwru_6205_defect_frequencies():
@@ -26,3 +26,18 @@ def test_inner_always_above_outer():
     assert a["BPFI"] > a["BPFO"] > a["FTF"] > 0
     for k in a:
         assert b[k] == pytest.approx(2 * a[k])
+
+
+def test_fault_lines_encode_modulation_physics():
+    freqs = bearing_freqs(rpm=1772, n_balls=9, ball_dia=7.94, pitch_dia=39.04)
+    lines = fault_lines(freqs, n_harmonics=2, n_sidebands=1)
+    # BPFO: plain harmonics only
+    assert lines["BPFO"] == pytest.approx([freqs["BPFO"], 2 * freqs["BPFO"]])
+    # BPFI: each harmonic flanked by +-fr sidebands
+    assert pytest.approx(lines["BPFI"][:3]) == [
+        freqs["BPFI"], freqs["BPFI"] - freqs["fr"], freqs["BPFI"] + freqs["fr"]]
+    # BSF: centered on 2xBSF (ball hits both races per revolution), +-FTF sidebands
+    assert pytest.approx(lines["BSF"][:3]) == [
+        2 * freqs["BSF"], 2 * freqs["BSF"] - freqs["FTF"], 2 * freqs["BSF"] + freqs["FTF"]]
+    # all positive
+    assert all(x > 0 for v in lines.values() for x in v)

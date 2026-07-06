@@ -10,15 +10,17 @@ go-to-market, unit economics, risks, and the **P0 technical spec** live in
 
 ## Status
 
-**P0 Step 1 (public-data validation): done for race faults.** On the CWRU 1772-rpm
-drive-end set the detector reads the normal file *healthy* and nails the outer-race
-(SNR 167) and inner-race (SNR 56) faults baseline-free; the known-hard 0.007″ ball
-fault reads *suspect* baseline-free and *faulted* (50× margin) against a healthy
-baseline. Details in [`analysis/README.md`](analysis/README.md); regression-guarded
-by `pytest tests/`.
+**P0 Step 1 (public-data validation): done.** On the CWRU 1772-rpm drive-end sets
+(12 kHz *and* 48 kHz) the detector reads the normal file *healthy* — including
+under the automatic band search — and identifies every race fault baseline-free
+with the correct element (comb SNR 15–141). Ball faults, the literature-hard case,
+read *suspect* at best baseline-free and *faulted* (26× margin) against a healthy
+baseline — the product path. Physics-line scoring (2×BSF ± FTF, BPFI ± fr) and a
+matched kurtogram band picker included. Details in
+[`analysis/README.md`](analysis/README.md); regression-guarded by `pytest tests/`.
 
-**Next:** ball-fault scoring (2×BSF + sidebands, 48 kHz data), IMS run-to-failure
-trending, then P0 Step 2 — the ~$150 field rig on one real machine.
+**Next:** IMS run-to-failure trending (`validate_ims.py`), then P0 Step 2 — the
+field rig on one real machine (see [`docs/p0-bom.md`](docs/p0-bom.md)).
 
 ## Layout
 

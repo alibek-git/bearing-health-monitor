@@ -5,15 +5,23 @@ the deterministic, explainable base that ML/RUL is layered on later.
 
 ## Modules
 - `bearing.py` — `bearing_freqs(rpm, n_balls, ball_dia, pitch_dia, contact_angle_deg)`
-  → characteristic defect frequencies (fr, FTF, BPFO, BPFI, BSF).
+  → characteristic defect frequencies (fr, FTF, BPFO, BPFI, BSF);
+  `fault_lines(freqs)` → the expected envelope lines per element, encoding the
+  modulation physics (BPFI harmonics carry ±fr sidebands; ball faults live at
+  **2×BSF ± FTF**, not the rarely-visible 1×BSF comb).
 - `envelope.py` — `envelope_spectrum(x, fs, band)` (band-pass → Hilbert envelope →
-  spectrum), `defect_score(...)` (amplitude at a defect freq + harmonics),
-  `classify(...)` (score every element; max = likely fault).
-- `detect.py` — the decision gate: `harmonic_snr(...)` (defect comb vs local
-  envelope noise floor) and `detect(...)` → `healthy` / `suspect` / `faulted`
-  verdict + element + margin. Baseline-free mode screens without any per-machine
-  data; pass a healthy capture's `classify` scores as `baseline` for the far more
-  sensitive product mode (needed for ball faults).
+  spectrum; `band=None` skips filtering), `line_score`/`defect_score` (amplitude at
+  expected lines), `classify(...)` (score every element over its physics line set).
+- `detect.py` — the decision gate: `comb_snr(...)` (expected-line comb vs local
+  envelope noise floor; *robust* — drops the strongest line so a lone machine tone
+  coinciding with one expected line cannot fake a comb) and `detect(...)` →
+  `healthy` / `suspect` / `faulted` verdict + element + margin. Baseline-free mode
+  screens without any per-machine data; pass a healthy capture's `classify` scores
+  as `baseline` for the far more sensitive product mode (needed for ball faults).
+- `kurtogram.py` — `pick_band(x, fs, freqs)` chooses the demodulation band:
+  *matched* criterion (max defect-comb SNR over a band grid) when geometry is
+  known, blind spectral-kurtosis otherwise. The biggest accuracy lever on real
+  plant signals.
 - `features.py` — `velocity_rms_iso(...)` (ISO 10816 severity), `kurtosis`,
   `crest_factor`, `rms` (early-warning + trending).
 
@@ -36,20 +44,26 @@ det = detect(f, amp, freqs)           # optionally baseline=<healthy classify() 
 det["verdict"], det["element"]        # e.g. ("faulted", "BPFO")
 ```
 
-## Validated (CWRU, 1772 rpm drive-end set)
-| file | truth | baseline-free verdict | harmonic SNR |
+## Validated (CWRU, 1772 rpm drive-end sets, kurtogram auto-band)
+| file | truth | baseline-free verdict | comb SNR |
 |---|---|---|---|
-| 98 | normal | healthy | max 3.3 (under warn=4) |
-| 106 | inner race | **faulted — BPFI** | 56 |
-| 131 | outer race | **faulted — BPFO** | 167 |
-| 119 | ball | suspect; **faulted** with `baseline=` (50× over healthy) | 4.1 |
+| 98 @12k | normal | healthy (also healthy under the 40-band search — no selection-bias false alarm) | max 3.5 |
+| 106 @12k | inner race | **faulted — BPFI** | 35 |
+| 131 @12k | outer race | **faulted — BPFO** | 141 |
+| 110 @48k | inner race | **faulted — BPFI** | 15–20 |
+| 136 @48k | outer race | **faulted — BPFO** | 39 |
+| 119 @12k | ball | suspect (auto-band); **faulted** with `baseline=` (26× min over healthy) | 6.1 |
+| 123 @48k | ball | **known miss** baseline-free — needs a baseline capture | 2.2 |
 
-The 0.007″ ball fault is the textbook-hard case (energy smears across 2×BSF + cage
-sidebands); baseline-relative mode — the product path — catches it cleanly.
+The 0.007″ ball fault is the literature-hard case: the Smith & Randall CWRU
+benchmark classes B007 as non-diagnosable by conventional envelope analysis.
+Our honest posture: baseline-free screening reaches *suspect* at best on ball
+faults; the baseline-relative mode — the product path, where every monitored
+asset records a healthy baseline at install — flags them cleanly.
 
 ## Notes / roadmap
-- **Band selection** is the biggest accuracy lever in noisy plant signals — replace the
-  fixed `band` with a kurtogram / spectral-kurtosis sweep (pick the most impulsive band).
-- **Ball faults**: add 2×BSF + FTF-sideband-aware scoring, and prefer 48 kHz data.
+- ~~Band selection (kurtogram)~~ — done: `pick_band`, matched + blind criteria.
+- ~~Ball-fault sideband scoring~~ — done: `fault_lines` (2×BSF ± FTF, BPFI ± fr).
 - **Order tracking** (resample to shaft angle) for variable-speed machines.
-- **Trending + baselines** per asset; **RUL** models once run-to-failure data accrues.
+- **Trending + baselines** per asset (`validate_ims.py` next); **RUL** models once
+  run-to-failure data accrues.

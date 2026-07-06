@@ -21,7 +21,8 @@ from scipy.io import loadmat
 
 # allow `python scripts/validate_cwru.py` from the repo root
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from analysis import bearing_freqs, classify, detect, envelope_spectrum  # noqa: E402
+from analysis import (bearing_freqs, classify, detect, envelope_spectrum,  # noqa: E402
+                      pick_band)
 
 
 def load_de_signal(path):
@@ -40,6 +41,9 @@ def main():
     ap.add_argument("--rpm", type=float, default=1772, help="shaft speed")
     ap.add_argument("--band", type=float, nargs=2, default=(2000.0, 5000.0),
                     help="envelope band-pass (Hz); upper edge must be < fs/2")
+    ap.add_argument("--auto-band", action="store_true",
+                    help="pick the envelope band by spectral kurtosis (kurtogram) "
+                    "instead of --band")
     ap.add_argument("--baseline", help="healthy .mat of the same rig; enables the far "
                     "more sensitive baseline-relative mode (catches ball faults)")
     ap.add_argument("--plot", action="store_true", help="plot the envelope spectrum")
@@ -48,12 +52,15 @@ def main():
     x = load_de_signal(args.matfile)
     # CWRU drive-end bearing: SKF 6205-2RS JEM — 9 balls, ball 7.94 mm, pitch 39.04 mm
     freqs = bearing_freqs(args.rpm, n_balls=9, ball_dia=7.94, pitch_dia=39.04)
-    f, amp = envelope_spectrum(x, args.fs, band=tuple(args.band))
+    band = pick_band(x, args.fs, freqs) if args.auto_band else tuple(args.band)
+    if args.auto_band:
+        print(f"auto band (kurtogram): {band[0]:.0f}-{band[1]:.0f} Hz")
+    f, amp = envelope_spectrum(x, args.fs, band=band)
 
     baseline = None
     if args.baseline:
         xb = load_de_signal(args.baseline)
-        fb, ab = envelope_spectrum(xb, args.fs, band=tuple(args.band))
+        fb, ab = envelope_spectrum(xb, args.fs, band=band)
         baseline = classify(fb, ab, freqs)
 
     det = detect(f, amp, freqs, baseline=baseline)

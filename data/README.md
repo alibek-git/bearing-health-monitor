@@ -8,9 +8,10 @@ gitignored** (datasets are large and/or customer-confidential).
   accelerometer, 12 kHz & 48 kHz. The fastest way to prove the detector.
   Place `.mat` files here and run `scripts/validate_cwru.py`.
   Direct URLs: `https://engineering.case.edu/sites/default/files/<n>.mat` —
-  the validated 1-hp/1772-rpm set is `98` (normal), `106` (inner 0.007″),
-  `119` (ball 0.007″), `131` (outer 0.007″). `tests/test_cwru.py` picks these up
-  automatically when present.
+  the validated 1-hp/1772-rpm sets are, at 12 kHz: `98` (normal), `106` (inner
+  0.007″), `119` (ball 0.007″), `131` (outer 0.007″); at 48 kHz: `110` (inner),
+  `123` (ball), `136` (outer). `tests/test_cwru.py` picks these up automatically
+  when present.
 - **NASA IMS** — run-to-failure (trend scores from healthy to failure).
 - **NASA / FEMTO PRONOSTIA** — accelerated run-to-failure for RUL work.
 
