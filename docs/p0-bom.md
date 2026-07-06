@@ -16,23 +16,47 @@ duty/VAT on top of the prices below.
 guidance (BIS/FinCEN transshipment alerts) treats KZ as a diversion-risk
 destination, so several US distributors restrict service. **Do not order via
 VPN to a KZ address** — compliance screening at checkout/fulfilment will
-likely kill the order anyway. Digi-Key prices below are kept as reference
-only. Ranked working routes for the distributor parts:
+likely kill the order anyway. Digi-Key prices below are kept as reference only.
 
-| # | Route | Status | Notes |
-|---|---|---|---|
-| 1 | **Mouser** (mouser.com / eu.mouser.com, franchised) | listed by [Nordic's distributor finder as serving KZ](https://www.nordicsemi.com/About-us/FindDistributor/Asia-Pacific/Kazakhstan/Mouser-Electronics) ✓; exports to 170+ countries, FedEx/UPS, RU-language site | Carries both key parts. **First thing to try from a KZ IP**; confirm KZ accepted at checkout |
-| 2 | **TME** (tme.eu, Poland, franchised, CIS-savvy) | site auto-serves a KZ region ✓; non-EU delivery via [export dept](https://www.tme.eu/en/how-to-buy/7086/means-and-cost-of-transport/) (+48 42 645 54 44) | Huge catalog (incl. STEVAL, passives, tools); EVAL-ADXL1002Z / Teensy 4.1 **not confirmed** in their range — ask export desk |
-| 3 | **Welectron** (Germany, official PJRC/Teensy distributor) | ships **worldwide** DHL, [€39.90–119](https://www.welectron.com/Shipping-cost), VAT-free ex-EU ✓ | Genuine Teensy guaranteed; ~1–2 wk. Other official Teensy shops (Pimoroni UK, Antratek NL, Electrokit SE) — KZ shipping unverified |
-| 4 | **Chip One Stop** (Japan, Arrow group, franchised) | ships worldwide by courier from Yokohama ✓; KZ inclusion unconfirmed (site errors during check) — ask int@chip1stop.com | The realistic **Japan** route, likely carries ADI eval boards via Arrow stock |
-| 5 | **plaza.kz** (Almaty local agent, sale@plaza.kz, +7 778 006 60 00) | KZ-domestic ✓, catalogs Mouser-sourced parts | Ordering agent/retailer — call for special-order markup + lead time |
-| — | Taiwan | **no realistic route** | No franchised Taiwan retailer with intl consumer shipping surfaced; Switch Science (JP) closed its international store in 2022; Akizuki/Sengoku are Japan-domestic |
+**The two key parts now come from different places** (checked 2026-07-06):
+
+**Sensor (EVAL-ADXL1002Z) → Mouser.** ✓ Confirmed present on mouser.com and
+purchasable from KZ ([Nordic's distributor finder lists Mouser as serving
+KZ](https://www.nordicsemi.com/About-us/FindDistributor/Asia-Pacific/Kazakhstan/Mouser-Electronics);
+exports to 170+ countries, FedEx/UPS, RU-language site). Confirm the KZ address
+is accepted at checkout. TME (Poland, [export desk](https://www.tme.eu/en/how-to-buy/7086/means-and-cost-of-transport/)
++48 42 645 54 44) and Chip One Stop (Japan, Arrow group, int@chip1stop.com) are
+backups if Mouser checkout rejects KZ.
+
+**Teensy 4.1 → NOT Mouser.** ⚠ PJRC's store now links **only to SparkFun**
+(sole manufacturer since 2025); Mouser/Digi-Key buy-links were dropped, so
+`DEV-16771` appears delisted at Mouser. Genuine-board routes, live status:
+
+| Shop | Price | Stock (2026-07-06) | Ships to KZ? | Link |
+|---|---|---|---|---|
+| **Electrokit** (SE) | 379 SEK ≈ $36 (VAT off on export) | **54 in stock**, 1–3 d ✓ | Nordic+EU listed — **email to confirm** | [electrokit.com](https://www.electrokit.com/en/product/teensy-4-1/) |
+| **Opencircuit** (NL) | €44.50 (€36.80 ex-VAT) | in stock, 5–7 d ✓ | not stated — email info@opencircuit.nl | [opencircuit.shop](https://opencircuit.shop/Product/Teensy-4.1) |
+| **Pimoroni** (UK) | £23 | out of stock ✗ | **worldwide shipping ✓** | [shop.pimoroni.com](https://shop.pimoroni.com/en-us/products/teensy-4-1) |
+| SparkFun (source) | $37.20 | backordered ✗ | unconfirmed | [sparkfun.com](https://www.sparkfun.com/teensy-4-1.html) |
+
+All verified genuine PJRC/SparkFun (`DEV-16771` / `TEENSY41`). There's a real
+Teensy 4.1 supply crunch (SparkFun + Pimoroni both dry). Binding constraint is
+KZ delivery, not price: email Electrokit/Opencircuit to confirm KZ shipping and
+order from stock; set a Pimoroni back-in-stock alert as the guaranteed-worldwide
+fallback. **Never AliExpress** — $2–15 "Teensy" listings are documented
+counterfeits that fail under vibration.
+
+Other routes considered: Welectron DE (official Teensy distributor, worldwide
+DHL) is another genuine option if the above stall; plaza.kz (Almaty agent,
+sale@plaza.kz) can special-order; Taiwan has no franchised intl-retail route
+(Switch Science JP closed its international store in 2022).
 
 ## Ordering strategy (TL;DR)
 
 | Batch | Contents | Lead time |
 |---|---|---|
-| **1 — Mouser order** (fallback: TME export desk + Welectron for the Teensy) | sensor eval board, Teensy 4.1, headers | ~3–7 business days (FedEx/UPS) + customs; EU routes ~1–2 wk |
+| **1a — Mouser** | sensor eval board (EVAL-ADXL1002Z) | ~3–7 business days (FedEx/UPS) + customs |
+| **1b — Electrokit/Pimoroni** (separate order — Teensy not on Mouser) | Teensy 4.1 + headers | EU ~1–2 wk, pending KZ-shipping confirmation |
 | **2 — Local Karaganda / KZ marketplaces** (satu.kz, kaspi.kz, tomas.kz, OLX) | test bearings, bench grinder, Loctite, tachometer, USB cable | same day – 5 days |
 | **3 — AliExpress batch** (cheap, slow — order day 1) | magnet base, coax + BNC, spare reflective tape | ~10–25 days |
 
@@ -43,10 +67,10 @@ substitutes.
 
 | Component | Pick | Supplier | Price | Ships to KZ | Notes |
 |---|---|---|---|---|---|
-| Vibration sensor | **EVAL-ADXL1002Z** (±50 g, flat to ~11 kHz, analog out, 25 µg/√Hz) | [Digi-Key](https://www.digikey.com/en/products/detail/analog-devices-inc/EVAL-ADXL1002Z/7200822) | **$106.50 ✓** | DHL/FedEx ~3–7 bd, ~$25–50 ~ | In stock. Alternates: [Arrow](https://www.arrow.com/en/products/eval-adxl1002z/analog-devices) $88.77 ✓ (KZ checkout unverified), Mouser ~$100–110 ~ |
-| — budget sensor option | EVAL-ADXL1005Z (±100 g, flat to ~23 kHz, 75 µg/√Hz — noisier, fine for seeded defects) | [Digi-Key](https://www.digikey.com/en/products/detail/analog-devices-inc/EVAL-ADXL1005Z/9648380) | $57.76 ✓ | same order | Halves the sensor cost if the noise floor is acceptable |
-| ADC / MCU | **Teensy 4.1** (600 MHz, samples ≥51.2 kSPS, streams USB) | [Digi-Key](https://www.digikey.com/en/products/detail/sparkfun-electronics/DEV-16771/12180099) | **$37.20 ✓** | same order | ⚠ SparkFun (now sole manufacturer, $31.50) shows **backorder**; Digi-Key had stock. ⚠ **Never AliExpress** — $2–15 "Teensy" listings are documented counterfeits that die under vibration |
-| Pin headers | 2×24-pin 2.54 mm breakaway strips | add to Digi-Key cart | ~$2 ~ | rides along | Or buy the pins-presoldered Teensy (~$46) |
+| Vibration sensor | **EVAL-ADXL1002Z** (±50 g, flat to ~11 kHz, analog out, 25 µg/√Hz) | **[Mouser](https://www.mouser.com) ✓ (found on-site from KZ)** | ~$100–110 ✓ | FedEx/UPS ~3–7 bd + customs | Digi-Key ref $106.50 (blocked from KZ). Backup: [Arrow](https://www.arrow.com/en/products/eval-adxl1002z/analog-devices) $88.77 |
+| — budget sensor option | EVAL-ADXL1005Z (±100 g, flat to ~23 kHz, 75 µg/√Hz — noisier, fine for seeded defects) | Mouser / TME | ~$50–65 ✓ | same order | Halves the sensor cost if the noise floor is acceptable |
+| ADC / MCU | **Teensy 4.1** (600 MHz, samples ≥51.2 kSPS, streams USB) | **[Electrokit](https://www.electrokit.com/en/product/teensy-4-1/) ≈$36 / [Pimoroni](https://shop.pimoroni.com/en-us/products/teensy-4-1) £23** | ~$36–46 | EU ~1–2 wk (confirm KZ) | ⚠ **Not on Mouser/Digi-Key** — PJRC sells via SparkFun only now. See Teensy table above. ⚠ **Never AliExpress** (counterfeits fail under vibration) |
+| Pin headers | 2×24-pin 2.54 mm breakaway strips | add to the Teensy order | ~$2 ~ | rides along | Or buy the pins-presoldered Teensy variant |
 | USB data cable | micro-B, short (<1 m) | local phone/electronics shop | ~$3 ~ | same day | Must be a *data* cable, not charge-only |
 | RPM measurement | **DT-2234C+ laser tachometer** + reflective tape | [AliExpress](https://www.aliexpress.com/w/wholesale-DT-2234C.html) $5–17 ✓ or [tomas.kz](https://tomas.kz/k/f-lazernyy-tahometr/) ~$27 ✓ | $5–27 | Ali ~10–25 d / local 2–5 d | Local costs ~2× but arrives in days |
 | Mounting — rigid | Stud (bundled with sensor board) + **Loctite 401** 20 g for glued pads | [satu.kz](https://satu.kz/p95562711-loctite-401-20g.html) | ~$14–15 ✓ (≈7 500–8 000 ₸) | domestic 2–5 d | Stud/adhesive is the only mounting flat to 10+ kHz |
@@ -102,12 +126,11 @@ items `required: false`.
 
 ## Re-verification checklist before ordering
 
-1. Open mouser.com from a KZ IP; register and confirm a Kazakhstan delivery
-   address is accepted at checkout + get the shipping quote (est. $25–50).
-2. If Mouser fails: email TME export desk (both parts) and order the Teensy
-   from Welectron (worldwide DHL) in parallel; for a Japan route, ask
-   int@chip1stop.com whether they deliver to KZ.
-3. Teensy 4.1 stock: SparkFun upstream is on backorder — confirm live stock
-   with whichever distributor is used.
-4. Customs: order >€200 → expect duty/VAT; consider splitting batches.
-5. AliExpress items: check seller ratings; avoid "Teensy" listings entirely.
+1. **Sensor:** cart EVAL-ADXL1002Z on Mouser (already located from KZ); confirm
+   the Kazakhstan address is accepted at checkout + get the shipping quote.
+2. **Teensy:** email Electrokit (info@electrokit.se) and Opencircuit
+   (info@opencircuit.nl) to confirm KZ shipping, then order from whichever has
+   stock; set a Pimoroni back-in-stock alert as the worldwide-shipping fallback.
+   Do **not** look for it on Mouser/Digi-Key — delisted.
+3. Customs: order >€200 → expect duty/VAT; consider splitting batches.
+4. AliExpress items: check seller ratings; avoid "Teensy" listings entirely.
