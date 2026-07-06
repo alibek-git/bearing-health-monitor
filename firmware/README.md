@@ -5,6 +5,9 @@ streams raw blocks to a laptop, where `analysis/` does the work. The product nod
 (low-power wireless, on-edge feature extraction) comes in P2.
 
 ## P0 rig
+Shopping list with suppliers, prices, and shipping-to-KZ estimates:
+[`docs/p0-bom.md`](../docs/p0-bom.md).
+
 - **Sensor:** ADXL1002 (±50 g, flat to ~11 kHz, 21 kHz resonance, low noise — the
   resonance band envelope analysis exploits). Analog output.
   *Higher-fidelity fallback:* an IEPE/ICP 100 mV/g accelerometer + conditioner.
