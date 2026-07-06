@@ -9,11 +9,30 @@ page/snippet that day; **~** = estimate, verify before ordering. Customs note:
 single orders above the EAEU personal-import threshold (~€200) may incur
 duty/VAT on top of the prices below.
 
+## ⚠ Supplier access from Kazakhstan (checked 2026-07-06)
+
+**Digi-Key geo-blocks Kazakhstan IPs** (confirmed by us: digikey.com returns
+"blocked" from KZ, loads via EU VPN). Context: since 2023 US export-control
+guidance (BIS/FinCEN transshipment alerts) treats KZ as a diversion-risk
+destination, so several US distributors restrict service. **Do not order via
+VPN to a KZ address** — compliance screening at checkout/fulfilment will
+likely kill the order anyway. Digi-Key prices below are kept as reference
+only. Ranked working routes for the distributor parts:
+
+| # | Route | Status | Notes |
+|---|---|---|---|
+| 1 | **Mouser** (mouser.com / eu.mouser.com, franchised) | listed by [Nordic's distributor finder as serving KZ](https://www.nordicsemi.com/About-us/FindDistributor/Asia-Pacific/Kazakhstan/Mouser-Electronics) ✓; exports to 170+ countries, FedEx/UPS, RU-language site | Carries both key parts. **First thing to try from a KZ IP**; confirm KZ accepted at checkout |
+| 2 | **TME** (tme.eu, Poland, franchised, CIS-savvy) | site auto-serves a KZ region ✓; non-EU delivery via [export dept](https://www.tme.eu/en/how-to-buy/7086/means-and-cost-of-transport/) (+48 42 645 54 44) | Huge catalog (incl. STEVAL, passives, tools); EVAL-ADXL1002Z / Teensy 4.1 **not confirmed** in their range — ask export desk |
+| 3 | **Welectron** (Germany, official PJRC/Teensy distributor) | ships **worldwide** DHL, [€39.90–119](https://www.welectron.com/Shipping-cost), VAT-free ex-EU ✓ | Genuine Teensy guaranteed; ~1–2 wk. Other official Teensy shops (Pimoroni UK, Antratek NL, Electrokit SE) — KZ shipping unverified |
+| 4 | **Chip One Stop** (Japan, Arrow group, franchised) | ships worldwide by courier from Yokohama ✓; KZ inclusion unconfirmed (site errors during check) — ask int@chip1stop.com | The realistic **Japan** route, likely carries ADI eval boards via Arrow stock |
+| 5 | **plaza.kz** (Almaty local agent, sale@plaza.kz, +7 778 006 60 00) | KZ-domestic ✓, catalogs Mouser-sourced parts | Ordering agent/retailer — call for special-order markup + lead time |
+| — | Taiwan | **no realistic route** | No franchised Taiwan retailer with intl consumer shipping surfaced; Switch Science (JP) closed its international store in 2022; Akizuki/Sengoku are Japan-domestic |
+
 ## Ordering strategy (TL;DR)
 
 | Batch | Contents | Lead time |
 |---|---|---|
-| **1 — Digi-Key order** (one consolidated cart) | sensor eval board, Teensy 4.1, headers | ~3–7 business days (DHL/FedEx) + customs |
+| **1 — Mouser order** (fallback: TME export desk + Welectron for the Teensy) | sensor eval board, Teensy 4.1, headers | ~3–7 business days (FedEx/UPS) + customs; EU routes ~1–2 wk |
 | **2 — Local Karaganda / KZ marketplaces** (satu.kz, kaspi.kz, tomas.kz, OLX) | test bearings, bench grinder, Loctite, tachometer, USB cable | same day – 5 days |
 | **3 — AliExpress batch** (cheap, slow — order day 1) | magnet base, coax + BNC, spare reflective tape | ~10–25 days |
 
@@ -83,7 +102,12 @@ items `required: false`.
 
 ## Re-verification checklist before ordering
 
-1. Digi-Key cart: confirm KZ address accepted + shipping quote (est. $25–50).
-2. Teensy 4.1 stock at Digi-Key (SparkFun upstream is on backorder).
-3. Customs: order >€200 → expect duty/VAT; consider splitting batches.
-4. AliExpress items: check seller ratings; avoid "Teensy" listings entirely.
+1. Open mouser.com from a KZ IP; register and confirm a Kazakhstan delivery
+   address is accepted at checkout + get the shipping quote (est. $25–50).
+2. If Mouser fails: email TME export desk (both parts) and order the Teensy
+   from Welectron (worldwide DHL) in parallel; for a Japan route, ask
+   int@chip1stop.com whether they deliver to KZ.
+3. Teensy 4.1 stock: SparkFun upstream is on backorder — confirm live stock
+   with whichever distributor is used.
+4. Customs: order >€200 → expect duty/VAT; consider splitting batches.
+5. AliExpress items: check seller ratings; avoid "Teensy" listings entirely.
