@@ -34,21 +34,26 @@ backups if Mouser checkout rejects KZ.
 
 | Shop | Price | Stock (2026-07-06) | Ships to KZ? | Link |
 |---|---|---|---|---|
-| **RadioMart** (Karaganda, local) | 59 000 ₸ ≈ **$105–115** | out of stock — **ask if back-order possible** ✗ | **local — pickup in Karaganda, delivery countrywide ✓** | [radiomart.kz](https://radiomart.kz/teensy/6016-plata-teensy-41-bez-pin.html) |
-| **Electrokit** (SE) | 379 SEK ≈ $36 (VAT off on export) | **54 in stock**, 1–3 d ✓ | Nordic+EU listed — **email to confirm** | [electrokit.com](https://www.electrokit.com/en/product/teensy-4-1/) |
-| **Opencircuit** (NL) | €44.50 (€36.80 ex-VAT) | in stock, 5–7 d ✓ | not stated — email info@opencircuit.nl | [opencircuit.shop](https://opencircuit.shop/Product/Teensy-4.1) |
-| **Pimoroni** (UK) | £23 | out of stock ✗ | **worldwide shipping ✓** | [shop.pimoroni.com](https://shop.pimoroni.com/en-us/products/teensy-4-1) |
-| SparkFun (source) | $37.20 | backordered ✗ | unconfirmed | [sparkfun.com](https://www.sparkfun.com/teensy-4-1.html) |
+| **RadioMart** (Karaganda, local) | 59 000 ₸ ≈ **$105–115** | **back-order confirmed by email 2026-07-07: ~5–6 weeks from Europe**, 1 pc or batch OK, 3-month own warranty; parallel import («признак происхождения 5» — manufacturer bars export to KZ) | **local ✓** | [radiomart.kz](https://radiomart.kz/teensy/6016-plata-teensy-41-bez-pin.html) |
+| **Electrokit** (SE) | 379 SEK ≈ $36 | 54 in stock ✓ | **✗ confirmed by email 2026-07-07: EU-only, no export outside EU** | [electrokit.com](https://www.electrokit.com/en/product/teensy-4-1/) |
+| **Opencircuit** (NL) | €44.50 (€36.80 ex-VAT) | in stock, 5–7 d ✓ | not stated — email info@opencircuit.nl (likely EU-only too) | [opencircuit.shop](https://opencircuit.shop/Product/Teensy-4.1) |
+| **Pimoroni** (UK) | £23 | out of stock ✗ | worldwide shipping stated — likely moot given manufacturer export bar | [shop.pimoroni.com](https://shop.pimoroni.com/en-us/products/teensy-4-1) |
+| SparkFun (source) | $37.20 | backordered ✗ | **✗ — manufacturer bars export to KZ** (per RadioMart) | [sparkfun.com](https://www.sparkfun.com/teensy-4-1.html) |
+
+**Key learning (2026-07-07):** PJRC/SparkFun officially prohibits export of Teensy
+to Kazakhstan — which explains the Digi-Key geo-block and Electrokit's refusal in
+one stroke. The realistic channel is KZ parallel import (RadioMart-style): EU-
+sourced, seller's own warranty (3 mo), ~5–6 week lead. Order early, order spares.
 
 All presented as genuine PJRC/SparkFun (`DEV-16771` / `TEENSY41`); AliExpress
 excluded — $2–15 "Teensy" listings are documented counterfeits that fail under
 vibration. There's a real Teensy 4.1 supply crunch (SparkFun + Pimoroni + RadioMart
-all dry). **Recommended play:** ask **RadioMart** whether a back-order is possible (local —
-no customs or export screening; ~$75 premium worth it to remove KZ-delivery
-risk; confirm genuine PJRC + warranty + lead time, and that they'll sell 1–2
-units) **and** email Electrokit/Opencircuit in parallel — take whichever
-delivers a genuine board first. If RadioMart has no back-order, the EU shops
-become primary. The "no pins"
+all dry). **Recommended play (updated after supplier replies):** order via **RadioMart**
+back-order (~5–6 wk, 3-mo warranty, 1–2 pcs confirmed OK) — the EU direct routes
+are closed (Electrokit EU-only; manufacturer export bar). While ordering, ask
+RadioMart to quote the **EVAL-ADXL1002Z** too (same import channel) as a hedge
+against the Mouser checkout failing, and ask about in-stock Teensy 4.0 as a
+possible wait-cutter. The "no pins"
 variant is fine (solder wires directly — more robust under vibration than
 headers). Set a Pimoroni back-in-stock alert as the worldwide fallback.
 
