@@ -33,5 +33,16 @@ Validated result on set 2 channel 0 (bearing 1, outer-race death): **sustained
 BPFO alarm 2d 12h before failure** (SNR mode), baseline-ratio alarm BPFO 23× at
 2d 20h.
 
-## Planned
-- `record_teensy.py` — pull live blocks from the P0 sensor (see `firmware/`) and score them.
+## `record_teensy.py`
+Capture from the P0 rig (Teensy 4.1 + ADXL1002 running
+[`firmware/p0_sampler`](../firmware/p0_sampler/p0_sampler.ino)) and score it
+immediately:
+
+```bash
+python scripts/record_teensy.py --asset pump7 --seconds 10 --rpm 1480 \
+    --bearing 9 7.94 39.04 0     # n_balls ball_dia pitch_dia contact_angle
+```
+Auto-detects the serial port, verifies frame checksums + sequence continuity
+(warns on any host gaps / device drops), saves `data/field/<asset>/<stamp>.npy`
++ sidecar JSON per the field convention, and prints the detector verdict
+(band, slip, per-element SNR) when RPM + geometry are given.

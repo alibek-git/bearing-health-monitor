@@ -17,10 +17,24 @@ Shopping list with suppliers, prices, and shipping-to-KZ estimates:
   zone, radial** direction. Mount stiffness dominates high-frequency fidelity.
 - **RPM:** nameplate / VFD readout / estimated from the 1× peak.
 
-## Sketch (to add)
-`p0_sampler/` — Arduino/Teensy sketch: configure ADC, sample at Fs, frame blocks
-(magic + length + samples), write to USB at full rate. The host side is
-`scripts/record_teensy.py` (planned).
+## Sketch
+[`p0_sampler/p0_sampler.ino`](p0_sampler/p0_sampler.ino) — IntervalTimer-driven
+sampling at 51.2 kSPS (12-bit, A0), double-buffered 2048-sample blocks streamed
+over USB CDC as framed packets:
+
+```
+"VIB1" | seq u32 | n u16 | dropped u32 | payload n×u16 | csum u16   (little-endian)
+```
+
+`dropped` counts device-side overflows (host reading too slowly) — a healthy
+capture keeps it at 0. Host side: `scripts/record_teensy.py` (parses, verifies
+checksums + sequence continuity, saves .npy + sidecar JSON, and scores the
+capture with the full detector on the spot).
+
+**Not yet run on hardware** — the Teensy is on back-order (see
+[`docs/p0-bom.md`](../docs/p0-bom.md)). The wire protocol itself is
+regression-tested host-side (`tests/test_record.py`), including an end-to-end
+synthetic-fault → frames → verdict test.
 
 ## Roadmap
 P2 node: low-power MCU (STM32L / nRF52) + ADXL1002 + sub-GHz/LoRa radio + multi-year
