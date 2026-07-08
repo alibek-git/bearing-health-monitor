@@ -13,6 +13,10 @@ gitignored** (datasets are large and/or customer-confidential).
   `123` (ball), `136` (outer). `tests/test_cwru.py` picks these up automatically
   when present.
 - **NASA IMS** — run-to-failure (trend scores from healthy to failure).
+  Mirror: `https://phm-datasets.s3.amazonaws.com/NASA/4.+Bearings.zip` (~1 GB).
+  Extract test set 2 into `data/ims/2nd_test/` (984 snapshot files named
+  `2004.02.12.10.32.39`-style; 4 columns = bearings 1-4; 20 kHz, 20,480 pts)
+  and run `scripts/validate_ims.py`. Bearing 1 (column 0) fails outer-race.
 - **NASA / FEMTO PRONOSTIA** — accelerated run-to-failure for RUL work.
 
 ## Field recordings

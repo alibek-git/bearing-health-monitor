@@ -19,8 +19,16 @@ baseline — the product path. Physics-line scoring (2×BSF ± FTF, BPFI ± fr) 
 matched kurtogram band picker included. Details in
 [`analysis/README.md`](analysis/README.md); regression-guarded by `pytest tests/`.
 
-**Next:** IMS run-to-failure trending (`validate_ims.py`), then P0 Step 2 — the
-field rig on one real machine (see [`docs/p0-bom.md`](docs/p0-bom.md)).
+**Run-to-failure trending validated (NASA IMS set 2):** the detector names the
+failing element (outer race) and raises a **sustained alarm ~2.5 days before the
+bearing dies**, with no training data and no false alarm on the surviving
+bearings — including automatic band selection and bearing-slip alignment
+(the IMS rig runs 2.5% under kinematic frequencies). This is the trend/alert
+mechanic the product ships with.
+
+**Next:** P0 Step 2 — the field rig on one real machine
+(see [`docs/p0-bom.md`](docs/p0-bom.md); Teensy on back-order), and
+`record_teensy.py` so the rig streams straight into this pipeline.
 
 ## Layout
 

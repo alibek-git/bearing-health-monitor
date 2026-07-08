@@ -74,17 +74,42 @@ def harmonic_snr(f, amp, target, n_harmonics=4, tol=0.01, floor_span=0.12):
                     tol, floor_span)
 
 
+def estimate_slip(f, amp, freqs, n_harmonics=4, span=(0.96, 1.005), step=0.0025):
+    """Global slip factor that best aligns the expected combs with the spectrum.
+
+    Rolling elements slip: under heavy load the cage runs a few percent below its
+    kinematic speed, dragging every defect frequency down with it (IMS set 2:
+    BPFO sits 2.5% under nominal). A fixed ±1% line window then misses the real
+    comb entirely. This scans one *shared* scale factor over all elements and
+    returns the value maximizing the strongest element's robust comb SNR — one
+    global parameter, so it cannot invent an element that isn't there.
+    """
+    best_s, best = 1.0, -np.inf
+    s = span[0]
+    while s <= span[1] + 1e-9:
+        scaled = {k: v * s for k, v in freqs.items()}
+        score = max(comb_snr(f, amp, lines)
+                    for lines in fault_lines(scaled, n_harmonics).values())
+        if score > best:
+            best_s, best = s, score
+        s += step
+    return best_s
+
+
 def _zone(value, warn, alarm):
     return "faulted" if value > alarm else "suspect" if value > warn else "healthy"
 
 
 def detect(f, amp, freqs, n_harmonics=4, warn=4.0, alarm=10.0,
-           baseline=None, warn_ratio=4.0, alarm_ratio=10.0):
+           baseline=None, warn_ratio=4.0, alarm_ratio=10.0, slip="auto"):
     """Decide healthy / suspect / faulted; name the element when not healthy.
 
     ``freqs`` is the dict from :func:`analysis.bearing.bearing_freqs`. ``baseline``,
     if given, is the ``classify(...)`` score dict from a healthy capture of the same
-    machine; the verdict is then the more severe of the two modes.
+    machine; the verdict is then the more severe of the two modes. ``slip="auto"``
+    (default) first aligns the expected combs to the spectrum with one global
+    slip factor (see :func:`estimate_slip`); pass ``slip=None`` or a number to
+    disable/pin it.
 
     Thresholds (``warn``/``alarm`` on harmonic SNR, ``warn_ratio``/``alarm_ratio``
     on score-over-baseline) are calibrated on CWRU: healthy tops out ~3.3, race
@@ -108,6 +133,10 @@ def detect(f, amp, freqs, n_harmonics=4, warn=4.0, alarm=10.0,
     amp = np.asarray(amp, dtype=float)
     if not np.all(np.isfinite(amp)):
         raise ValueError("envelope spectrum contains non-finite values — reject the capture")
+
+    if slip == "auto":
+        slip = estimate_slip(f, amp, freqs, n_harmonics)
+    freqs = {k: v * (slip or 1.0) for k, v in freqs.items()}
 
     snr = {k: comb_snr(f, amp, lines)
            for k, lines in fault_lines(freqs, n_harmonics).items()}
@@ -134,4 +163,4 @@ def detect(f, amp, freqs, n_harmonics=4, warn=4.0, alarm=10.0,
     if verdict == "healthy":
         element = None
     return {"verdict": verdict, "element": element, "margin": margin,
-            "snr": snr, "scores": scores, "ratios": ratios}
+            "snr": snr, "scores": scores, "ratios": ratios, "slip": slip}
