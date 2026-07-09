@@ -37,6 +37,7 @@ mechanic the product ships with.
 | [`analysis/`](analysis/) | Detection core — bearing defect frequencies, envelope demodulation, condition features (the IP) |
 | [`scripts/`](scripts/) | Runnable validation (e.g. against the CWRU bearing dataset) |
 | [`firmware/`](firmware/) | Edge sensor sampling (Teensy + ADXL1002) — P0 notes |
+| [`demo/`](demo/) | Live demo dashboard — synthetic machine through the real pipeline (Docker-ready) |
 | [`data/`](data/) | Local datasets (gitignored) — CWRU / IMS / NASA + field recordings |
 | [`docs/`](docs/) | Business plan + P0 technical spec |
 

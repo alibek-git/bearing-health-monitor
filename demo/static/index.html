@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bearing-health monitor — live demo</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
+<style>
+  :root { --bg:#fafaf8; --card:#fff; --line:#e3e2dd; --txt:#26251f; --mut:#6f6e66; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt);
+         font:15px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { display:flex; align-items:baseline; gap:14px; padding:14px 22px;
+           border-bottom:1px solid var(--line); background:var(--card); flex-wrap:wrap; }
+  header h1 { font-size:17px; font-weight:600; margin:0; }
+  header .sub { color:var(--mut); font-size:13px; }
+  main { display:grid; grid-template-columns:280px 1fr 1fr; gap:14px; padding:14px 22px;
+         max-width:1400px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .card h2 { font-size:13px; font-weight:600; color:var(--mut); margin:0 0 10px;
+             text-transform:uppercase; letter-spacing:.04em; }
+  label { display:block; font-size:13px; color:var(--mut); margin:10px 0 4px; }
+  select, input[type=range], button { width:100%; }
+  select { padding:7px; border:1px solid var(--line); border-radius:7px; background:var(--card); font-size:14px; }
+  button { padding:9px; border:1px solid var(--line); border-radius:8px; background:var(--card);
+           font-size:14px; cursor:pointer; margin-top:8px; }
+  button.primary { background:#1d5fd1; border-color:#1d5fd1; color:#fff; }
+  button:active { transform:scale(.985); }
+  .verdict { border-radius:10px; padding:14px 16px; text-align:center; margin-bottom:10px; }
+  .verdict .v { font-size:26px; font-weight:700; letter-spacing:.02em; }
+  .verdict .d { font-size:13px; margin-top:2px; }
+  .healthy { background:#e7f4ec; color:#1c6b3c; }
+  .suspect { background:#fdf1dc; color:#8a5a09; }
+  .faulted { background:#fdeaea; color:#a02c2c; }
+  .kv { display:flex; justify-content:space-between; font-size:13px; padding:3px 0;
+        border-bottom:1px dashed var(--line); }
+  .kv:last-child { border-bottom:none; }
+  .kv b { font-variant-numeric:tabular-nums; }
+  .wide { grid-column:2 / 4; }
+  .chartbox { position:relative; height:210px; }
+  .chartbox.tall { height:260px; }
+  #log { font-size:13px; margin:0; padding:0; list-style:none; }
+  #log li { padding:4px 0; border-bottom:1px dashed var(--line); }
+  #log li:first-child { color:#a02c2c; font-weight:600; }
+  @media (max-width:1000px){ main { grid-template-columns:1fr; } .wide { grid-column:1; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Bearing-health monitor</h1>
+  <span class="sub">live demo — synthetic machine, real detection pipeline (validated on CWRU + NASA IMS)</span>
+  <span class="sub" id="clock" style="margin-left:auto; font-variant-numeric:tabular-nums;"></span>
+</header>
+
+<main>
+  <div>
+    <div id="verdict" class="verdict healthy">
+      <div class="v" id="v-text">—</div>
+      <div class="d" id="v-detail">waiting for data</div>
+    </div>
+    <div class="card">
+      <h2>Machine · pump, 1480 rpm, 6205 bearing</h2>
+      <label>Seeded fault (takes effect as severity grows)</label>
+      <select id="fault">
+        <option value="outer">Outer race (BPFO)</option>
+        <option value="inner">Inner race (BPFI)</option>
+        <option value="ball">Ball (2×BSF)</option>
+      </select>
+      <label>Mode</label>
+      <select id="mode">
+        <option value="auto">Auto — degrade over time (run to failure)</option>
+        <option value="manual">Manual — set severity by hand</option>
+      </select>
+      <label>Severity <span id="sev-val" style="float:right">0.00</span></label>
+      <input type="range" id="sev" min="0" max="1" step="0.01" value="0" disabled>
+      <button class="primary" id="run">▶ Start degradation</button>
+      <button id="reset">Reset machine (new baseline)</button>
+      <div style="margin-top:12px">
+        <div class="kv"><span>capture (1 = 1 h)</span><b id="k-cap">0</b></div>
+        <div class="kv"><span>demod band</span><b id="k-band">—</b></div>
+        <div class="kv"><span>slip found / true</span><b id="k-slip">—</b></div>
+        <div class="kv"><span>margin vs alarm</span><b id="k-margin">—</b></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h2>Events</h2>
+      <ul id="log"><li style="color:var(--mut)">none yet — baseline building</li></ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Raw vibration (25 ms)</h2>
+    <div class="chartbox"><canvas id="wave"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h2>Envelope spectrum + expected defect lines</h2>
+    <div class="chartbox"><canvas id="spec"></canvas></div>
+  </div>
+
+  <div class="card wide">
+    <h2>Defect-score trend vs early-life baseline (log) — the product signal</h2>
+    <div class="chartbox tall"><canvas id="trend"></canvas></div>
+  </div>
+</main>
+
+<script>
+Chart.register(window['chartjs-plugin-annotation']);
+const EL_COLORS = { BPFO:'#1d5fd1', BPFI:'#0f8a5f', BSF:'#c07a10', FTF:'#8a8a82' };
+
+const wave = new Chart(document.getElementById('wave'), {
+  type:'line',
+  data:{ labels:[], datasets:[{ data:[], borderColor:'#1d5fd1', borderWidth:1, pointRadius:0 }]},
+  options:{ responsive:true, maintainAspectRatio:false, animation:false,
+    scales:{ x:{ display:false }, y:{ ticks:{ font:{size:10} } } },
+    plugins:{ legend:{display:false}, tooltip:{enabled:false} } }
+});
+
+const spec = new Chart(document.getElementById('spec'), {
+  type:'line',
+  data:{ labels:[], datasets:[{ data:[], borderColor:'#26251f', borderWidth:1, pointRadius:0 }]},
+  options:{ responsive:true, maintainAspectRatio:false, animation:false,
+    scales:{ x:{ type:'linear', min:0, max:320, title:{display:true, text:'Hz', font:{size:10}},
+                 ticks:{ font:{size:10} } },
+             y:{ display:false } },
+    plugins:{ legend:{display:false}, tooltip:{enabled:false}, annotation:{ annotations:{} } } }
+});
+
+const trend = new Chart(document.getElementById('trend'), {
+  type:'line',
+  data:{ labels:[], datasets:[] },
+  options:{ responsive:true, maintainAspectRatio:false, animation:false,
+    scales:{ x:{ title:{display:true, text:'machine hours', font:{size:10}}, ticks:{ font:{size:10}, maxTicksLimit:14 } },
+             y:{ type:'logarithmic', min:0.2,
+                 title:{display:true, text:'score / baseline', font:{size:10}} } },
+    plugins:{ legend:{ labels:{ boxWidth:10, font:{size:11} } },
+      annotation:{ annotations:{
+        warn:{ type:'line', yMin:4, yMax:4, borderColor:'#c07a10', borderWidth:1, borderDash:[6,4],
+               label:{ display:true, content:'warn 4×', position:'start', font:{size:10},
+                       backgroundColor:'rgba(0,0,0,0)', color:'#c07a10' } },
+        alarm:{ type:'line', yMin:10, yMax:10, borderColor:'#a02c2c', borderWidth:1, borderDash:[6,4],
+               label:{ display:true, content:'alarm 10×', position:'start', font:{size:10},
+                       backgroundColor:'rgba(0,0,0,0)', color:'#a02c2c' } }
+      } } } }
+});
+
+const $ = id => document.getElementById(id);
+let running = false;
+
+async function post(url, body) {
+  const r = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'},
+                               body: body ? JSON.stringify(body) : null });
+  return r.json();
+}
+
+$('fault').onchange = () => post('/api/config', { fault: $('fault').value });
+$('mode').onchange = () => {
+  const manual = $('mode').value === 'manual';
+  $('sev').disabled = !manual;
+  post('/api/config', { mode: $('mode').value });
+};
+$('sev').oninput = () => { $('sev-val').textContent = (+$('sev').value).toFixed(2);
+                           post('/api/config', { severity: +$('sev').value }); };
+$('run').onclick = () => { running = !running;
+  $('run').textContent = running ? '⏸ Pause' : '▶ Start degradation';
+  post('/api/config', { running }); };
+$('reset').onclick = async () => { await post('/api/reset'); running = false;
+  $('run').textContent = '▶ Start degradation'; $('sev').value = 0; $('sev-val').textContent = '0.00';
+  trend.data.labels = []; trend.data.datasets = []; trend.update();
+  $('log').innerHTML = '<li style="color:var(--mut)">none yet — baseline building</li>'; };
+
+function render(d) {
+  $('clock').textContent = d.time + ' (simulated)';
+  $('k-cap').textContent = d.capture;
+  $('k-band').textContent = d.band[0] + '–' + d.band[1] + ' Hz';
+  $('k-slip').textContent = d.slip.toFixed(3) + ' / ' + d.true_slip.toFixed(3);
+  $('k-margin').textContent = d.margin + '×';
+  if (d.mode === 'auto') { $('sev').value = d.severity; $('sev-val').textContent = d.severity.toFixed(2); }
+
+  const v = $('verdict');
+  v.className = 'verdict ' + d.verdict;
+  $('v-text').textContent = d.verdict.toUpperCase();
+  $('v-detail').textContent = d.element ? ('likely ' + d.element + ' — SNR ' +
+    d.snr[d.element].toFixed(1)) : 'no defect comb above the noise floor';
+
+  wave.data.labels = d.wave.map((_, i) => i);
+  wave.data.datasets[0].data = d.wave;
+  wave.update();
+
+  spec.data.labels = d.spec_f;
+  spec.data.datasets[0].data = d.spec_a;
+  const ann = {};
+  for (const [k, fq] of Object.entries(d.freqs)) {
+    if (fq > 320) continue;
+    ann[k] = { type:'line', xMin:fq, xMax:fq, borderColor:EL_COLORS[k], borderWidth:1.3,
+               borderDash:[4,3], label:{ display:true, content:k, position:'end',
+               font:{size:9}, color:EL_COLORS[k], backgroundColor:'rgba(0,0,0,0)' } };
+  }
+  spec.options.plugins.annotation.annotations = ann;
+  spec.update();
+
+  if (d.ratios) {
+    const hours = Object.values(d.ratios)[0].map((_, i) => i + 1);
+    trend.data.labels = hours;
+    trend.data.datasets = Object.entries(d.ratios).map(([k, vals]) => ({
+      label:k, data:vals, borderColor:EL_COLORS[k], borderWidth:1.6, pointRadius:0, tension:.25 }));
+    trend.update();
+  }
+  if (d.events.length) {
+    $('log').innerHTML = d.events.slice().reverse().map(e => '<li>' + e + '</li>').join('');
+  }
+}
+
+async function loop() {
+  try { render(await post('/api/step')); } catch (e) { console.error(e); }
+  setTimeout(loop, 900);
+}
+loop();
+</script>
+</body>
+</html>
