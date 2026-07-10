@@ -20,13 +20,19 @@ likely kill the order anyway. Digi-Key prices below are kept as reference only.
 
 **The two key parts now come from different places** (checked 2026-07-06):
 
-**Sensor (EVAL-ADXL1002Z) → Mouser.** ✓ Confirmed present on mouser.com and
-purchasable from KZ ([Nordic's distributor finder lists Mouser as serving
-KZ](https://www.nordicsemi.com/About-us/FindDistributor/Asia-Pacific/Kazakhstan/Mouser-Electronics);
-exports to 170+ countries, FedEx/UPS, RU-language site). Confirm the KZ address
-is accepted at checkout. TME (Poland, [export desk](https://www.tme.eu/en/how-to-buy/7086/means-and-cost-of-transport/)
-+48 42 645 54 44) and Chip One Stop (Japan, Arrow group, int@chip1stop.com) are
-backups if Mouser checkout rejects KZ.
+**Sensor (EVAL-ADXL1002Z) → ✗ NOT Mouser either.** Checkout tested 2026-07-10:
+**Kazakhstan is absent from Mouser's ship-to country list** (cart reached the
+address step, $110.21 DDP — no KZ option). Same de-risking as Digi-Key, just
+enforced at checkout instead of the firewall. Working routes, in order:
+1. **RadioMart order-in** (~3–4 wk, quote requested with the Teensy) — local
+   importer handles the channel professionally;
+2. **TME Poland export desk** (+48 42 645 54 44; carries Analog Devices — ask
+   for the eval board explicitly);
+3. **Chip One Stop** (Japan, Arrow group, int@chip1stop.com);
+4. **plaza.kz** (Almaty agent, +7 778 006 60 00) — orders US-distributor items
+   with KZ delivery.
+Self-import via freight forwarder is technically possible but works around the
+distributor's compliance terms — prefer the licensed-importer routes above.
 
 **Teensy 4.1 → NOT Mouser.** ⚠ PJRC's store now links **only to SparkFun**
 (sole manufacturer since 2025); Mouser/Digi-Key buy-links were dropped, so
@@ -82,7 +88,7 @@ substitutes.
 
 | Component | Pick | Supplier | Price | Ships to KZ | Notes |
 |---|---|---|---|---|---|
-| Vibration sensor | **EVAL-ADXL1002Z** (±50 g, flat to ~11 kHz, analog out, 25 µg/√Hz) | **[Mouser](https://www.mouser.com) ✓ (found on-site from KZ)** | ~$100–110 ✓ | FedEx/UPS ~3–7 bd + customs | Digi-Key ref $106.50 (blocked from KZ). Backup: [Arrow](https://www.arrow.com/en/products/eval-adxl1002z/analog-devices) $88.77 |
+| Vibration sensor | **EVAL-ADXL1002Z** (±50 g, flat to ~11 kHz, analog out, 25 µg/√Hz) | **RadioMart order-in (quote pending)** / TME export desk / Chip One Stop | US ref $110 ✓; KZ landed price TBD | ~3–4 wk (RadioMart channel) | ⚠ Mouser checkout has **no Kazakhstan** in the country list (tested 2026-07-10); Digi-Key geo-blocked. All US direct routes closed |
 | — budget sensor option | EVAL-ADXL1005Z (±100 g, flat to ~23 kHz, 75 µg/√Hz — noisier, fine for seeded defects) | Mouser / TME | ~$50–65 ✓ | same order | Halves the sensor cost if the noise floor is acceptable |
 | ADC / MCU | **Teensy 4.1** (600 MHz, samples ≥51.2 kSPS, streams USB) | **[Electrokit](https://www.electrokit.com/en/product/teensy-4-1/) ≈$36 / [Pimoroni](https://shop.pimoroni.com/en-us/products/teensy-4-1) £23** | ~$36–46 | EU ~1–2 wk (confirm KZ) | ⚠ **Not on Mouser/Digi-Key** — PJRC sells via SparkFun only now. See Teensy table above. ⚠ **Never AliExpress** (counterfeits fail under vibration) |
 | Pin headers | 2×24-pin 2.54 mm breakaway strips | add to the Teensy order | ~$2 ~ | rides along | Or buy the pins-presoldered Teensy variant |
@@ -139,16 +145,18 @@ items `required: false`.
 > ADXL1002 eval board alone is now ~$106. The full working setup including the
 > seeded-defect bench lands at ~$300 — still firmly in P0 territory.
 
-## Re-verification checklist before ordering
+## Ordering status (2026-07-10)
 
-1. **Sensor:** cart EVAL-ADXL1002Z on Mouser (already located from KZ); confirm
-   the Kazakhstan address is accepted at checkout + get the shipping quote.
-2. **Teensy:** ask RadioMart (local, Karaganda) whether a back-order is possible
-   + lead time + genuine-PJRC/warranty + that they'll sell 1–2 units, **and** in
-   parallel email Electrokit
-   (info@electrokit.se) / Opencircuit (info@opencircuit.nl) to confirm KZ
-   shipping. Order from whichever delivers a genuine board first; set a Pimoroni
-   back-in-stock alert as the worldwide fallback. Do **not** look on
-   Mouser/Digi-Key — delisted.
-3. Customs: order >€200 → expect duty/VAT; consider splitting batches.
-4. AliExpress items: check seller ratings; avoid "Teensy" listings entirely.
+1. **Teensy 4.1:** RadioMart quote in hand — 84 370 ₸/pc, 50/50 payment,
+   genuine, 5–6 wk. Ordering **1 pc** (budget call; ask for a same-price option
+   on a 2nd). All US/EU direct routes confirmed closed.
+2. **Sensor (EVAL-ADXL1002Z):** Mouser checkout confirmed to exclude Kazakhstan
+   (tested 2026-07-10) — awaiting RadioMart's quote; probing TME export desk and
+   Chip One Stop (int@chip1stop.com) in parallel; plaza.kz as the local-agent
+   fallback.
+3. **Bench + small items:** buy locally now (satu.kz/kaspi/OLX) — independent of
+   import lead times; the bench can be built and defects seeded before any
+   electronics arrive.
+4. Customs/compliance: rides with the licensed importer on routes 1–2. Avoid
+   self-import via forwarders — it works around distributor compliance terms.
+5. AliExpress items: check seller ratings; avoid "Teensy" listings entirely.
