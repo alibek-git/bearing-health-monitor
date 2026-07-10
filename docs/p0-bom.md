@@ -34,7 +34,7 @@ backups if Mouser checkout rejects KZ.
 
 | Shop | Price | Stock (2026-07-06) | Ships to KZ? | Link |
 |---|---|---|---|---|
-| **RadioMart** (Karaganda, local) | 59 000 ₸ ≈ **$105–115** | **back-order confirmed by email 2026-07-07: ~5–6 weeks from Europe**, 1 pc or batch OK, 3-month own warranty; parallel import («признак происхождения 5» — manufacturer bars export to KZ) | **local ✓** | [radiomart.kz](https://radiomart.kz/teensy/6016-plata-teensy-41-bez-pin.html) |
+| **RadioMart** (Karaganda, local) | **84 370 ₸ ≈ $153** (quoted 2026-07-09; site's 59 000 ₸ stale) | **back-order confirmed: ~5–6 weeks from Europe**, 1 pc or batch OK, 3-month own warranty, genuine confirmed, **50/50 payment accepted**, pickup Karaganda or KZ-wide delivery; no Teensy 4.0 in stock; other components order-in ~3–4 wk; parallel import («признак 5» — manufacturer bars export to KZ) | **local ✓** | [radiomart.kz](https://radiomart.kz/teensy/6016-plata-teensy-41-bez-pin.html) |
 | **Electrokit** (SE) | 379 SEK ≈ $36 | 54 in stock ✓ | **✗ confirmed by email 2026-07-07: EU-only, no export outside EU** | [electrokit.com](https://www.electrokit.com/en/product/teensy-4-1/) |
 | **Opencircuit** (NL) | €44.50 (€36.80 ex-VAT) | in stock, 5–7 d ✓ | not stated — email info@opencircuit.nl (likely EU-only too) | [opencircuit.shop](https://opencircuit.shop/Product/Teensy-4.1) |
 | **Pimoroni** (UK) | £23 | out of stock ✗ | worldwide shipping stated — likely moot given manufacturer export bar | [shop.pimoroni.com](https://shop.pimoroni.com/en-us/products/teensy-4-1) |
@@ -48,12 +48,16 @@ sourced, seller's own warranty (3 mo), ~5–6 week lead. Order early, order spar
 All presented as genuine PJRC/SparkFun (`DEV-16771` / `TEENSY41`); AliExpress
 excluded — $2–15 "Teensy" listings are documented counterfeits that fail under
 vibration. There's a real Teensy 4.1 supply crunch (SparkFun + Pimoroni + RadioMart
-all dry). **Recommended play (updated after supplier replies):** order via **RadioMart**
-back-order (~5–6 wk, 3-mo warranty, 1–2 pcs confirmed OK) — the EU direct routes
-are closed (Electrokit EU-only; manufacturer export bar). While ordering, ask
-RadioMart to quote the **EVAL-ADXL1002Z** too (same import channel) as a hedge
-against the Mouser checkout failing, and ask about in-stock Teensy 4.0 as a
-possible wait-cutter. The "no pins"
+all dry). **Recommended play (updated 2026-07-09 after the price quote):** order
+**1× Teensy 4.1 via RadioMart** back-order at the quoted 84 370 ₸ (~4× MSRP but
+the only compliant KZ route; 50/50 payment; get the price fixed in the invoice) —
+the second unit is deferred, budget permitting later. **Buy the EVAL-ADXL1002Z
+from Mouser directly** (~$100–110 + shipping — RadioMart's markup pattern would
+put it well above that; still worth letting them quote it as the fallback).
+Small items (tachometer, coax, magnets) stay local/AliExpress unless RadioMart's
+quote is competitive. Handling discipline while running a single board: sensor
+powered from 3V3 only (5 V supply would drive VOUT past the Teensy's ADC limit),
+ground yourself before touching the rig, no hot-plugging the analog line. The "no pins"
 variant is fine (solder wires directly — more robust under vibration than
 headers). Set a Pimoroni back-in-stock alert as the worldwide fallback.
 
