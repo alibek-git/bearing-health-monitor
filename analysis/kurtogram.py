@@ -58,6 +58,7 @@ def pick_band(x, fs, freqs=None, f_lo=500.0):
     x = np.asarray(x, dtype=float)
     x = x - x.mean()
     best, best_score = None, -np.inf
+    slips = (1.0, 0.99, 0.975, 0.96)  # coarse; detect() refines afterwards
     for lo, hi in band_grid(fs, f_lo):
         sos = butter(4, (lo, hi), btype="bandpass", fs=fs, output="sos")
         xb = sosfiltfilt(sos, x)
@@ -68,9 +69,15 @@ def pick_band(x, fs, freqs=None, f_lo=500.0):
             from .detect import comb_snr
             from .envelope import envelope_spectrum
 
+            # Evaluate the comb at a few slip factors: on a slipping machine the
+            # true comb sits a few % below nominal, and judging bands only at
+            # the kinematic lines makes the search near-blind (band choice then
+            # degenerates to noise). detect() re-estimates slip finely later.
             f, amp = envelope_spectrum(xb, fs, band=None)
             score = max(comb_snr(f, amp, lines)
-                        for lines in fault_lines(freqs).values())
+                        for s in slips
+                        for lines in fault_lines(
+                            {k: v * s for k, v in freqs.items()}).values())
         if score > best_score:
             best, best_score = (lo, hi), score
     return best
