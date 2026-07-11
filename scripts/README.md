@@ -46,3 +46,23 @@ Auto-detects the serial port, verifies frame checksums + sequence continuity
 (warns on any host gaps / device drops), saves `data/field/<asset>/<stamp>.npy`
 + sidecar JSON per the field convention, and prints the detector verdict
 (band, slip, per-element SNR) when RPM + geometry are given.
+
+## `analyze_wav.py`
+Score a WAV recording — e.g. a phone microphone held near a running bearing.
+Phones record 44.1 kHz audio and save `.m4a` by default: convert with
+`ffmpeg -i rec.m4a rec.wav`. The pipeline is sample-rate-agnostic. A mic is an
+acoustic proxy for the accelerometer — fine for gross seeded defects (the
+envelope comb is audible), not for calibrated severity.
+
+```bash
+python scripts/analyze_wav.py rec.wav --rpm 1480
+# fixed band instead of the default matched-kurtogram auto band:
+python scripts/analyze_wav.py rec.wav --rpm 1480 --band 2000 8000
+# baseline-relative mode against a healthy recording of the same rig:
+python scripts/analyze_wav.py rec.wav --rpm 1480 --baseline healthy.wav
+```
+Defaults: bearing geometry `9 7.94 39.04 0` (6205 class), all channels mixed
+to mono (`--channel` to pick one), first 0.5 s trimmed (`--trim`; phones fumble
+at record start). Prints fs, duration, defect frequencies, band + slip,
+per-element scores/SNR, and the `HEALTHY / SUSPECT / FAULTED` verdict with
+margin; `--plot` shows the envelope spectrum.
