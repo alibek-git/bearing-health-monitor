@@ -6,6 +6,12 @@
       "runtimeExecutable": ".venv/bin/uvicorn",
       "runtimeArgs": ["demo.app:app", "--port", "8000"],
       "port": 8000
+    },
+    {
+      "name": "site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8090", "--directory", "site"],
+      "port": 8090
     }
   ]
 }
