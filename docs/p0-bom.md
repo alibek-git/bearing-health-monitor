@@ -145,18 +145,32 @@ items `required: false`.
 > ADXL1002 eval board alone is now ~$106. The full working setup including the
 > seeded-defect bench lands at ~$300 — still firmly in P0 territory.
 
-## Ordering status (2026-07-10)
+## ✅ ORDER PLACED (2026-07-15) — RadioMart, КП №210414 от 14.07.2026
 
-1. **Teensy 4.1:** RadioMart quote in hand — 84 370 ₸/pc, 50/50 payment,
-   genuine, 5–6 wk. Ordering **1 pc** (budget call; ask for a same-price option
-   on a 2nd). All US/EU direct routes confirmed closed.
-2. **Sensor (EVAL-ADXL1002Z):** Mouser checkout confirmed to exclude Kazakhstan
-   (tested 2026-07-10) — awaiting RadioMart's quote; probing TME export desk and
-   Chip One Stop (int@chip1stop.com) in parallel; plaza.kz as the local-agent
-   fallback.
-3. **Bench + small items:** buy locally now (satu.kz/kaspi/OLX) — independent of
-   import lead times; the bench can be built and defects seeded before any
-   electronics arrive.
-4. Customs/compliance: rides with the licensed importer on routes 1–2. Avoid
-   self-import via forwarders — it works around distributor compliance terms.
-5. AliExpress items: check seller ratings; avoid "Teensy" listings entirely.
+50% prepaid **98 715 ₸** (bank transfer to ИП RADIOMART.KZ, receipt kept);
+remainder **98 715 ₸ due on pickup** in Karaganda. Paid as an individual
+(физлицо); упрощёнка discount applied (Teensy 84 370 → 64 900 ₸, ~23%).
+**ETA: possibly ~3 weeks (owner's estimate), worst case 5–6.**
+
+| Позиция | Кол-во | Сумма, ₸ |
+|---|---|---|
+| EVAL-ADXL1002Z | 1 | 118 780 |
+| Teensy 4.1 без PIN (арт. 16016) | 1 | 64 900 |
+| Лазерный тахометр DT-2234C+ | 1 | 9 635 |
+| Кабель RG174, 1 м | 5 | 2 475 |
+| Разъём BNC-J-1.5 (папа) | 1 | 820 |
+| Разъём BNC-K-С-1.5 (мама) | 1 | 820 |
+| **Итого** | | **197 430** (≈$360) |
+
+Notes for arrival day: power the ADXL board from **3V3 only** (5 V supply
+drives VOUT past the Teensy ADC limit); solder wires, no plug-in headers on
+the rig (vibration loosens sockets); Teensy needs two **1×24 single-row**
+strips only if breadboarding first; ADXL P1/P2 ship unpopulated.
+
+Still to buy (all local, cheap): bench per [p0-bench.md](p0-bench.md);
+optional PLS 2.54 header strips + neodymium magnet (scan-only mount — rolls
+off ~2 kHz; the measurement mount is Loctite 401 / stud).
+
+Historical notes: all US/EU direct routes confirmed closed (Digi-Key geo-block,
+Mouser checkout has no KZ, PJRC export bar, Electrokit EU-only). Customs rides
+with the licensed importer. Avoid AliExpress "Teensy" listings (counterfeits).
