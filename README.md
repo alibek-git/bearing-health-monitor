@@ -39,7 +39,7 @@ mechanic the product ships with.
 | [`firmware/`](firmware/) | Edge sensor sampling (Teensy + ADXL1002) — P0 notes |
 | [`demo/`](demo/) | Live demo dashboard — synthetic machine through the real pipeline (Docker-ready) |
 | [`data/`](data/) | Local datasets (gitignored) — CWRU / IMS / NASA + field recordings |
-| [`docs/`](docs/) | Business plan + P0 technical spec |
+| [`docs/`](docs/) | Business plan + P0 technical spec, BOM, and [patent provenance](docs/patent-provenance.md) |
 
 ## Quickstart (P0 analysis)
 

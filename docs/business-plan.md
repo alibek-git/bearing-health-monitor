@@ -5,9 +5,13 @@ existing rotating machinery (motors, pumps, fans, gearboxes, conveyors, mill sta
 and predicts bearing failure weeks before it happens — assembled and supported locally
 in Kazakhstan, sold first to Karaganda heavy industry.
 
-- **Source:** `Patents — Industrial Software` pool, `US-7708998-B2`-class (`G01M13` —
-  structure-borne noise / rolling-element bearing diagnostics). Promise 7 / Difficulty 6
-  (the most buildable idea at the top of that pool).
+- **Source:** `Patents — Industrial Software` pool, **`US-7599804-B2`** — "Method for
+  detecting structure-borne noise events in a roller bearing" (`G01M13/045`, FAG
+  Kugelfischer AG / now Schaeffler, inventor Alfred Pecher; expired 2013). Promise 7 /
+  Difficulty 6 (the most buildable idea at the top of that pool). Full ownership,
+  legal status and prior-art lineage in [`patent-provenance.md`](patent-provenance.md)
+  — including why this repo's algorithm is *not* that patent's method, and why the
+  common attribution to General Electric is false.
 - **Why it's here:** the demand is proven (Schaeffler OPTIME, SKF, Augury, Waites all
   sell this globally), and the founder has a real edge — **local assembly + on-site
   support + RU/KZ language + local-content procurement + a warm anchor market in the
