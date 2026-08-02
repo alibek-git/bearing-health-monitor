@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Wireless vibration monitoring: envelope analysis predicts bearing failure weeks ahead. Assembled and supported in Kazakhstan.">
-<title data-i18n="title">Bearing Health Monitor — predict bearing failure weeks ahead</title>
+<meta name="description" content="Wireless vibration monitoring: envelope analysis names the failing bearing element days before failure. Assembled and supported in Kazakhstan.">
+<title data-i18n="title">Bearing Health Monitor — know which bearing is failing, before it stops the line</title>
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <style>
   :root { --bg:#fafaf8; --card:#fff; --line:#e3e2dd; --txt:#26251f; --mut:#6f6e66;
@@ -38,6 +38,8 @@
           padding:18px; }
   .card h2 { font-size:15px; margin:10px 0 8px; }
   .card p { font-size:14px; color:var(--mut); margin:0; }
+  .card p.note { font-size:12px; margin-top:9px; padding-top:9px;
+                 border-top:1px solid var(--line); color:#8a8981; }
   .sec { font-size:13px; font-weight:600; color:var(--mut); text-transform:uppercase;
          letter-spacing:.04em; margin:40px 0 14px; }
   .steps { display:flex; align-items:center; gap:12px; background:var(--card);
@@ -77,7 +79,7 @@
 <main>
   <section class="hero">
     <div>
-      <h1 data-i18n="hero_h1">Predict bearing failure weeks ahead</h1>
+      <h1 data-i18n="hero_h1">Know which bearing is failing — before it stops the line</h1>
       <p class="sub" data-i18n="hero_sub">Wireless vibration monitoring for heavy industry
         — assembled and supported in Kazakhstan.</p>
       <a class="cta" href="demo.html" data-i18n="hero_cta">See the live demo</a>
@@ -118,8 +120,11 @@
         <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>
       </svg>
       <h2 data-i18n="p1_h">Validated on public datasets</h2>
-      <p data-i18n="p1_p">On NASA run-to-failure data the detector names the failing
-        bearing element and raises the alarm about 2.5 days before the bearing dies.</p>
+      <p data-i18n="p1_p">On NASA IMS run-to-failure data the detector names the failing
+        element and raises a sustained alarm about 2.5 days before the bearing dies —
+        roughly 2 days before its neighbours on the same shaft.</p>
+      <p class="note" data-i18n="p1_note">Measured on one bearing on one test rig.
+        Longer lead times are expected from the physics but are not yet validated by us.</p>
     </div>
     <div class="card">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1d5fd1"

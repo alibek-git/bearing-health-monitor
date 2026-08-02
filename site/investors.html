@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Bearing Health Monitor — pre-seed investor overview: deck, live demo, open source detection core, and exactly what the evidence does and does not support.">
+<meta name="robots" content="noindex">
+<title>Bearing Health Monitor — investor overview</title>
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<style>
+  :root { --bg:#fafaf8; --card:#fff; --line:#e3e2dd; --txt:#26251f; --mut:#6f6e66;
+          --acc:#1d5fd1; --warn:#c07a10; --alarm:#a02c2c; --ok:#2c7a4b; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt);
+         font:15px/1.6 -apple-system,"Segoe UI",Roboto,sans-serif; }
+  a { color:var(--acc); }
+  header { display:flex; align-items:center; gap:10px; padding:14px 22px;
+           border-bottom:1px solid var(--line); background:var(--card); }
+  header svg { flex:none; display:block; }
+  header .name { font-size:17px; font-weight:600; }
+  header .back { margin-left:auto; font-size:13.5px; }
+  main { max-width:880px; margin:0 auto; padding:0 22px 10px; }
+
+  .hero { padding:48px 0 30px; }
+  .kicker { font-size:12px; text-transform:uppercase; letter-spacing:.09em;
+            color:var(--acc); font-weight:700; margin:0 0 12px; }
+  h1 { font-size:clamp(26px,4vw,36px); line-height:1.15; letter-spacing:-.015em; margin:0 0 14px; }
+  .lede { font-size:17px; color:var(--mut); margin:0 0 26px; }
+
+  .actions { display:flex; flex-wrap:wrap; gap:10px; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:11px 20px;
+         border-radius:8px; text-decoration:none; font-weight:600; font-size:14.5px;
+         border:1px solid var(--line); background:var(--card); color:var(--txt); }
+  .btn.primary { background:var(--acc); border-color:var(--acc); color:#fff; }
+  .btn:active { transform:scale(.985); }
+  .btn small { font-weight:400; color:var(--mut); font-size:12.5px; }
+  .btn.primary small { color:#d7e4fb; }
+
+  h2 { font-size:13px; font-weight:600; color:var(--mut); text-transform:uppercase;
+       letter-spacing:.05em; margin:42px 0 14px; }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:10px;
+         padding:20px 22px; }
+  .box + .box { margin-top:12px; }
+  .box h3 { font-size:15.5px; margin:0 0 8px; }
+  .box p:last-child, .box ul:last-child { margin-bottom:0; }
+  .box p, .box li { font-size:14.5px; color:var(--mut); }
+  .box p { margin:0 0 10px; }
+  ul { margin:0 0 10px; padding-left:20px; }
+  li { margin-bottom:6px; }
+  .box.warn { border-left:3px solid var(--warn); background:#fdfaf3; }
+  .box.ok { border-left:3px solid var(--ok); }
+
+  table { width:100%; border-collapse:collapse; font-size:14px;
+          background:var(--card); border:1px solid var(--line); border-radius:10px;
+          overflow:hidden; }
+  th { text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em;
+       color:var(--mut); background:#f5f4f0; padding:10px 14px;
+       border-bottom:1px solid var(--line); }
+  td { padding:10px 14px; border-bottom:1px solid var(--line); }
+  tr:last-child td { border-bottom:0; }
+  td.n { font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .good { color:var(--ok); font-weight:600; }
+  .mid { color:var(--warn); font-weight:600; }
+  .scroll { overflow-x:auto; }
+
+  .facts { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .fact { background:var(--card); border:1px solid var(--line); border-radius:10px;
+          padding:16px 18px; }
+  .fact .v { font-size:22px; font-weight:700; letter-spacing:-.01em; }
+  .fact .k { font-size:12.5px; color:var(--mut); margin-top:3px; }
+
+  footer { border-top:1px solid var(--line); margin-top:48px; padding:22px;
+           background:var(--card); font-size:13.5px; color:var(--mut); }
+  footer .in { max-width:880px; margin:0 auto; }
+  @media (max-width:720px){ .facts{grid-template-columns:repeat(2,1fr);} }
+</style>
+</head>
+<body>
+
+<header>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <circle cx="12" cy="12" r="9" stroke="#1d5fd1" stroke-width="1.8"/>
+    <path d="M6.5 12h2.5l1.5-3.5 2.5 7 1.5-3.5h3" stroke="#1d5fd1" stroke-width="1.6"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <span class="name">Bearing Health Monitor</span>
+  <a class="back" href="./index.html">← Main site</a>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="kicker">Investor overview · pre-seed</p>
+    <h1>Retrofit bearing diagnostics that name the failing element — built in Kazakhstan</h1>
+    <p class="lede">Physics-first vibration analysis with no training data. The detection core is
+      open source, validated on public run-to-failure data, and runs live in your browser. Below is
+      the deck, the evidence, and an explicit statement of what the evidence does not yet support.</p>
+    <div class="actions">
+      <a class="btn primary" href="./deck.pdf">Pitch deck <small>PDF · 12 slides</small></a>
+      <a class="btn" href="./demo.html">Live demo <small>runs in your browser</small></a>
+      <a class="btn" href="https://github.com/alibek-git/bearing-health-monitor">Source code <small>GitHub</small></a>
+    </div>
+  </section>
+
+  <h2>At a glance</h2>
+  <div class="facts">
+    <div class="fact"><div class="v">Pre-seed</div><div class="k">Working prototype, pre-revenue</div></div>
+    <div class="fact"><div class="v">Karaganda</div><div class="k">Kazakhstan heavy-industry basin</div></div>
+    <div class="fact"><div class="v">1 founder</div><div class="k">Seeking a commercial co-founder</div></div>
+    <div class="fact"><div class="v">40+ tests</div><div class="k">Reproducible detection core</div></div>
+  </div>
+
+  <h2>Measured results</h2>
+  <div class="scroll">
+    <table>
+      <tr><th>Dataset</th><th>Record</th><th>Truth</th><th>Verdict</th><th class="n">Comb SNR</th></tr>
+      <tr><td rowspan="5">CWRU<br><span style="color:#9a998f;font-size:12.5px">1772 rpm drive end</span></td>
+          <td>98</td><td>normal</td><td class="good">healthy</td><td class="n">3.95</td></tr>
+      <tr><td>106</td><td>inner race</td><td class="good">faulted — BPFI</td><td class="n">35</td></tr>
+      <tr><td>131</td><td>outer race</td><td class="good">faulted — BPFO</td><td class="n">141</td></tr>
+      <tr><td>136</td><td>outer race</td><td class="good">faulted — BPFO</td><td class="n">39</td></tr>
+      <tr><td>119</td><td>ball</td><td class="mid">suspect — element misattributed</td><td class="n">6.1</td></tr>
+      <tr><td colspan="5" style="background:#f5f4f0;font-weight:600;font-size:12.5px;
+              text-transform:uppercase;letter-spacing:.05em;color:var(--mut)">
+          NASA IMS set 2 — run to failure, 984 snapshots over 7 days</td></tr>
+      <tr><td></td><td>Bearing 1</td><td>outer race — <strong>fails</strong></td>
+          <td class="good">sustained alarm at idx 59 / 99</td><td class="n">31.6</td></tr>
+      <tr><td></td><td>Bearing 2</td><td>survives</td><td>alarms at idx 90</td><td class="n">33.2</td></tr>
+      <tr><td></td><td>Bearing 3</td><td>survives</td><td>alarms at idx 91</td><td class="n">25.2</td></tr>
+      <tr><td></td><td>Bearing 4</td><td>survives</td><td>alarms at idx 88</td><td class="n">38.5</td></tr>
+    </table>
+  </div>
+  <div class="box ok" style="margin-top:12px">
+    <h3>What this says</h3>
+    <p>The failing bearing raises a sustained alarm <strong>~2.5 days before it dies</strong> and
+      <strong>~2 days before the earliest neighbour</strong>, with the correct element named and no
+      training data. All four bearings share a shaft and an identical BPFO, so the neighbours alarm
+      late from casing crosstalk — the claim is <em>lead time</em>, not neighbour silence. Every
+      number here is reproducible from the public repo with <code>pytest tests/</code>.</p>
+  </div>
+
+  <h2>What the evidence does not support</h2>
+  <div class="box warn">
+    <h3>Stated up front, because you would find it in the repo anyway</h3>
+    <ul>
+      <li><strong>No false-alarm rate.</strong> One healthy record, reading 3.95 against a warn
+        threshold of 4.0 — a 1.2% margin. A rate needs a healthy population, not one capture.</li>
+      <li><strong>No lead-time distribution.</strong> n = 1 failure event, so 2.5 days has no lower
+        bound — and nothing here supports the word <em>weeks</em>.</li>
+      <li><strong>Ball faults are unsolved.</strong> Detected as a level change, but the element
+        ranking is wrong. Race faults, the majority of failures, are solid.</li>
+      <li><strong>No per-bearing localisation</strong> on a shared shaft.</li>
+      <li><strong>Nothing yet through the product's own sensor chain</strong> — CWRU and IMS are lab
+        piezo recordings at constant speed and load.</li>
+    </ul>
+    <p>Closing these needs weeks of work and almost no capex: IMS sets 1 and 3 are already
+      downloaded, and XJTU-SY, PRONOSTIA/FEMTO, Paderborn and MFPT would take the run-to-failure
+      count from 1 to roughly 35.</p>
+  </div>
+
+  <h2>Where the value actually accrues</h2>
+  <div class="box">
+    <h3>Not the algorithm</h3>
+    <p>Envelope analysis is public-domain literature — Balderston (Boeing, 1969), Darlow &amp; Badgley
+      (1974), McFadden &amp; Smith (1984), Antoni &amp; Randall spectral kurtosis (2006–07). The patent
+      that inspired this project, <a href="https://patents.google.com/patent/US7599804B2/en">US 7,599,804 B2</a>
+      (FAG Kugelfischer, now Schaeffler), lapsed in 2013. Full provenance is
+      <a href="https://github.com/alibek-git/bearing-health-monitor/blob/main/docs/patent-provenance.md">documented in the repo</a>.</p>
+    <p>What compounds is local presence, per-plant failure data, and the maintenance relationships —
+      not the DSP. We would rather say that than claim a technological moat that does not exist.</p>
+  </div>
+
+  <h2>Plan — cheapest business-killing question first</h2>
+  <div class="scroll">
+    <table>
+      <tr><th>When</th><th>Milestone</th><th>Question it answers</th></tr>
+      <tr><td class="n">Weeks 1–2</td><td>First paid diagnostic walkthrough, one Karaganda plant,
+          20–40 bearings</td><td>Will anyone pay for the finding?</td></tr>
+      <tr><td class="n">Weeks 1–4</td><td>Field rig validated against a seeded defect on a real
+          machine</td><td>Does the MEMS chain see what the lab chain saw?</td></tr>
+      <tr><td class="n">Weeks 3–8</td><td>Validation expanded to ~35 run-to-failure events</td>
+          <td>What is the real false-alarm rate and lead-time spread?</td></tr>
+      <tr><td class="n">Month 3</td><td>Commercial co-founder; AIFC entity</td>
+          <td>Can we sell, and are we investable?</td></tr>
+      <tr><td class="n">Months 3–6</td><td>Three paying plants; first permanent nodes</td>
+          <td>Does this recur and scale past one relationship?</td></tr>
+    </table>
+  </div>
+
+  <h2>What we are looking for</h2>
+  <div class="box">
+    <p>Not primarily money. <strong>Introductions to plant maintenance and reliability directors</strong>
+      in Kazakhstan, help structuring a KZ/AIFC entity, and a <strong>commercial co-founder</strong>
+      with heavy-industry relationships. The engineering risk on this project is the part that is
+      already retired; the commercial risk is not.</p>
+    <p style="margin-bottom:0">Alibek Zhubekov ·
+      <a href="mailto:alibek1991@gmail.com">alibek1991@gmail.com</a> · Karaganda, Kazakhstan</p>
+  </div>
+</main>
+
+<footer>
+  <div class="in">
+    Every figure on this page is reproducible from the public repository.
+    Datasets: <a href="https://engineering.case.edu/bearingdatacenter">Case Western Reserve University Bearing Data Center</a>
+    and <a href="https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/">NASA Prognostics Center of Excellence (IMS)</a>.
+    &nbsp;·&nbsp; &copy; 2026 Bearing Health Monitor
+  </div>
+</footer>
+
+</body>
+</html>

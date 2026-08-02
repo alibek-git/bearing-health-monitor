@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bearing Health Monitor — pre-seed deck</title>
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<style>
+  :root { --bg:#fafaf8; --card:#fff; --line:#e3e2dd; --txt:#26251f; --mut:#6f6e66;
+          --acc:#1d5fd1; --warn:#c07a10; --alarm:#a02c2c; --ok:#2c7a4b; }
+  * { box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  html,body { margin:0; padding:0; background:#e8e7e2; color:var(--txt);
+              font:15px/1.5 -apple-system,"Segoe UI",Roboto,sans-serif; }
+
+  .slide { position:relative; width:280mm; height:157.5mm; background:var(--bg);
+           padding:15mm 17mm 13mm; margin:0 auto 8mm; overflow:hidden;
+           display:flex; flex-direction:column; }
+  .slide + .slide { page-break-before:always; }
+
+  h1 { font-size:34pt; line-height:1.1; letter-spacing:-.015em; margin:0 0 5mm; }
+  h2 { font-size:19pt; line-height:1.15; letter-spacing:-.01em; margin:0 0 6mm;
+       padding-bottom:3mm; border-bottom:2px solid var(--acc); }
+  h2 small { display:block; font-size:10pt; font-weight:400; color:var(--mut);
+             letter-spacing:0; margin-top:2mm; border:0; }
+  p { margin:0 0 3mm; font-size:11.5pt; }
+  ul { margin:0 0 3mm; padding-left:5mm; font-size:11.5pt; }
+  li { margin-bottom:2.2mm; }
+  strong { color:var(--txt); }
+  .lede { font-size:14pt; color:var(--mut); line-height:1.4; }
+  .num { color:var(--acc); font-weight:700; font-variant-numeric:tabular-nums; }
+  .kicker { font-size:9pt; text-transform:uppercase; letter-spacing:.09em;
+            color:var(--acc); font-weight:700; margin:0 0 4mm; }
+
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:9mm; flex:1; min-height:0; }
+  .cols3 { display:grid; grid-template-columns:repeat(3,1fr); gap:6mm; }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:3mm;
+         padding:6mm 6.5mm; }
+  .box h3 { font-size:12pt; margin:0 0 2.5mm; }
+  .box p, .box ul { font-size:10.5pt; color:var(--mut); margin-bottom:0; }
+  .box.acc { border-left:3px solid var(--acc); }
+  .box.warn { border-left:3px solid var(--warn); background:#fdfaf3; }
+  .box.ok { border-left:3px solid var(--ok); }
+
+  table { width:100%; border-collapse:collapse; font-size:10pt; }
+  th { text-align:left; font-size:8.5pt; text-transform:uppercase; letter-spacing:.06em;
+       color:var(--mut); border-bottom:1.5px solid var(--line); padding:2.5mm 3mm; }
+  td { padding:2.5mm 3mm; border-bottom:1px solid var(--line); vertical-align:top; }
+  tr:last-child td { border-bottom:0; }
+  td.n { font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .good { color:var(--ok); font-weight:600; }
+  .bad  { color:var(--alarm); font-weight:600; }
+  .mid  { color:var(--warn); font-weight:600; }
+
+  .foot { position:absolute; left:17mm; right:17mm; bottom:6mm;
+          display:flex; justify-content:space-between; font-size:8pt; color:#9a998f;
+          border-top:1px solid var(--line); padding-top:2.5mm; }
+
+  .flow { display:flex; align-items:center; gap:3mm; font-size:9.5pt; }
+  .flow .n2 { flex:1; background:var(--card); border:1px solid var(--line);
+              border-radius:2mm; padding:4mm 3mm; text-align:center; }
+  .flow .ar { color:var(--acc); font-size:13pt; }
+
+  .title-slide { justify-content:center; }
+  .title-slide .rule { width:26mm; height:3px; background:var(--acc); margin:0 0 7mm; }
+  .meta { margin-top:auto; font-size:10.5pt; color:var(--mut); }
+  .meta b { color:var(--txt); }
+  .tag { display:inline-block; font-size:8.5pt; padding:1mm 2.5mm; border-radius:1.5mm;
+         background:#eceade; color:#6a5c22; margin-left:2mm; vertical-align:middle; }
+
+  /* Slides carrying a full table plus a callout need tighter vertical rhythm, or
+     they overflow the fixed slide height and get silently clipped by overflow:hidden. */
+  .dense h2 { margin-bottom:4mm; }
+  .dense table { font-size:9pt; }
+  .dense th { padding:2mm 3mm; }
+  .dense td { padding:1.7mm 3mm; }
+  .dense .box { padding:4.5mm 5.5mm; }
+  .dense .box p, .dense .box ul { font-size:9.5pt; }
+  .dense .box h3 { font-size:11pt; margin-bottom:2mm; }
+
+  @page { size:280mm 157.5mm; margin:0; }
+  @media print { html,body{background:#fff;} .slide{margin:0; box-shadow:none;} }
+  @media screen { .slide{ box-shadow:0 2px 14px rgba(0,0,0,.13); margin-top:8mm; } }
+</style>
+</head>
+<body>
+
+<!-- 1 ─ title -->
+<section id="s1" class="slide title-slide">
+  <div class="rule"></div>
+  <h1>Bearing Health Monitor</h1>
+  <p class="lede" style="max-width:190mm">Retrofit wireless vibration monitoring that names
+    <strong>which bearing element is failing</strong> — physics-first, no training data.
+    Built and supported in Kazakhstan.</p>
+  <div class="meta">
+    <b>Alibek Zhubekov</b> — founder · Karaganda, Kazakhstan<br>
+    alibek1991@gmail.com · bearing-monitor.pages.dev<br>
+    <span style="color:#9a998f">Pre-seed / working prototype · pre-revenue
+      <span class="tag">seeking a commercial co-founder</span></span>
+  </div>
+  <div class="foot"><span>Bearing Health Monitor</span><span>1</span></div>
+</section>
+
+<!-- 2 ─ problem -->
+<section id="s2" class="slide">
+  <h2>Bearings fail slowly, then all at once<small>And most plants find out at the second stage</small></h2>
+  <div class="cols">
+    <div>
+      <p>Rolling-element bearings degrade <strong>progressively</strong> — microscopic spalling →
+        characteristic defect frequencies → heat → seizure. The failure is detectable in advance
+        from vibration.</p>
+      <p>Yet mid-tier and legacy plants still run <strong>reactive or fixed-interval</strong>
+        maintenance: replace on a calendar, or replace after it breaks.</p>
+      <p>A single unplanned stop on a critical line — a mill stand, a main pump, a furnace blower —
+        costs <strong>tens of thousands of dollars per hour</strong>, plus collateral damage and
+        safety exposure.</p>
+    </div>
+    <div class="box acc">
+      <h3>Why the gap persists</h3>
+      <ul>
+        <li>Premium monitoring platforms are priced and contracted for tier-1 plants.</li>
+        <li>Route-based manual measurement is quarterly at best — faults develop between rounds.</li>
+        <li>Systems that need historical training data are useless on day one.</li>
+        <li>Foreign vendors sell in English, invoice in EUR, and support from another time zone.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>The problem</span><span>2</span></div>
+</section>
+
+<!-- 3 ─ approach -->
+<section id="s3" class="slide">
+  <h2>Physics, not a black box<small>Explainable on day one, with zero training data</small></h2>
+  <p>Bearing geometry and shaft speed determine four characteristic defect frequencies exactly
+    (BPFO / BPFI / BSF / FTF). A defect on a given element rings at <em>its</em> frequency and
+    harmonics. Find the comb, name the element.</p>
+  <div class="flow" style="margin:7mm 0">
+    <div class="n2">Vibration<br>capture</div><span class="ar">→</span>
+    <div class="n2">Band-pass the<br>resonance band</div><span class="ar">→</span>
+    <div class="n2">Hilbert<br>envelope</div><span class="ar">→</span>
+    <div class="n2">Envelope<br>spectrum</div><span class="ar">→</span>
+    <div class="n2">Peak-pick at<br>defect frequencies</div><span class="ar">→</span>
+    <div class="n2"><strong>Element +<br>margin</strong></div>
+  </div>
+  <div class="cols3">
+    <div class="box"><h3>Works from day one</h3><p>No historical data, no model training,
+      no per-machine tuning. Deployable on a plant that has never measured anything.</p></div>
+    <div class="box"><h3>Every verdict is auditable</h3><p>"Outer race, 12× over your own
+      baseline, sustained across 3 captures." A plant engineer can check the reasoning.</p></div>
+    <div class="box"><h3>ML is upside, not a prerequisite</h3><p>Anomaly and remaining-useful-life
+      models layer on later as field data accumulates — the data moat.</p></div>
+  </div>
+  <div class="foot"><span>Approach</span><span>3</span></div>
+</section>
+
+<!-- 4 ─ what's built -->
+<section id="s4" class="slide">
+  <h2>What already exists<small>Public repo, 40+ passing tests, live in-browser demo</small></h2>
+  <div class="cols">
+    <div>
+      <table>
+        <tr><th>Component</th><th>State</th></tr>
+        <tr><td>Defect-frequency + physics-line model<br><span style="color:#9a998f;font-size:9pt">2×BSF ± FTF, BPFI ± fr</span></td><td class="good">done</td></tr>
+        <tr><td>Envelope demodulation + comb SNR</td><td class="good">done</td></tr>
+        <tr><td>Matched kurtogram band selection</td><td class="good">done</td></tr>
+        <tr><td>Bearing-slip alignment</td><td class="good">done</td></tr>
+        <tr><td>Baseline trending + sustained alarm</td><td class="good">done</td></tr>
+        <tr><td>Live browser demo (synthetic machine)</td><td class="good">done</td></tr>
+        <tr><td>Trilingual site EN / RU / KK</td><td class="good">done</td></tr>
+        <tr><td>Field rig (Teensy + ADXL1002)</td><td class="mid">parts in hand</td></tr>
+        <tr><td>Wireless node, gateway, cloud</td><td style="color:#9a998f">not started</td></tr>
+      </table>
+    </div>
+    <div class="box acc">
+      <h3>Unusual for this stage</h3>
+      <p style="margin-bottom:3mm">The detection core is open and reproducible. Anyone can clone
+        the repo, download the public datasets and re-run every number in this deck —
+        <code>pytest tests/</code>.</p>
+      <p style="margin-bottom:3mm">The browser demo runs the <em>same</em> algorithm as the
+        product, compiled to JavaScript. No video, no mockup — a reviewer can drive it.</p>
+      <p><strong>github.com/alibek-git/bearing-health-monitor</strong><br>
+         <strong>bearing-monitor.pages.dev</strong></p>
+    </div>
+  </div>
+  <div class="foot"><span>Status</span><span>4</span></div>
+</section>
+
+<!-- 5 ─ proof -->
+<section id="s5" class="slide">
+  <h2>Measured results<small>CWRU seeded faults and NASA IMS run-to-failure, shipped default configuration</small></h2>
+  <div class="cols" style="gap:7mm">
+    <div>
+      <p class="kicker">CWRU — 1772 rpm drive end</p>
+      <table>
+        <tr><th>Record</th><th>Truth</th><th>Verdict</th><th class="n">Comb SNR</th></tr>
+        <tr><td>98</td><td>normal</td><td class="good">healthy</td><td class="n">3.95</td></tr>
+        <tr><td>106</td><td>inner race</td><td class="good">faulted — BPFI</td><td class="n">35</td></tr>
+        <tr><td>131</td><td>outer race</td><td class="good">faulted — BPFO</td><td class="n">141</td></tr>
+        <tr><td>136</td><td>outer race</td><td class="good">faulted — BPFO</td><td class="n">39</td></tr>
+        <tr><td>119</td><td>ball</td><td class="mid">suspect — element wrong</td><td class="n">6.1</td></tr>
+      </table>
+    </div>
+    <div>
+      <p class="kicker">NASA IMS set 2 — run to failure, 7 days</p>
+      <table>
+        <tr><th>Bearing</th><th>Sustained alarm</th><th class="n">Peak SNR</th></tr>
+        <tr><td><strong>1 — fails (outer race)</strong></td><td class="good">idx 59 / 99</td><td class="n">31.6</td></tr>
+        <tr><td>2 — survives</td><td>idx 90</td><td class="n">33.2</td></tr>
+        <tr><td>3 — survives</td><td>idx 91</td><td class="n">25.2</td></tr>
+        <tr><td>4 — survives</td><td>idx 88</td><td class="n">38.5</td></tr>
+      </table>
+      <p style="font-size:10pt;color:var(--mut);margin-top:4mm">
+        The failing bearing raises a sustained alarm <span class="num">~2.5 days</span> before it
+        dies, and <span class="num">~2 days</span> before the earliest neighbour. All four share a
+        shaft and a BPFO, so the neighbours alarm late from casing crosstalk — the claim is
+        <strong>lead time</strong>, not neighbour silence.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Evidence</span><span>5</span></div>
+</section>
+
+<!-- 6 ─ limits -->
+<section id="s6" class="slide">
+  <h2>What this evidence does <em>not</em> support<small>Stated here because you would find it in the repo anyway</small></h2>
+  <div class="cols3" style="margin-bottom:6mm">
+    <div class="box warn"><h3>No false-alarm rate</h3><p>One healthy record, reading 3.95 against
+      a warn threshold of 4.0 — a 1.2% margin. A rate needs a healthy population.</p></div>
+    <div class="box warn"><h3>No lead-time distribution</h3><p>n = 1 failure event. One
+      observation has no dispersion, so 2.5 days has no lower bound — and nothing supports
+      the word <em>weeks</em>.</p></div>
+    <div class="box warn"><h3>Ball faults unsolved</h3><p>Detected as a level change, but the
+      element ranking is wrong. Race faults — the majority of failures — are solid.</p></div>
+  </div>
+  <div class="cols">
+    <div class="box warn"><h3>Nothing through the product's sensor chain</h3><p>CWRU and IMS are
+      lab piezo recordings at constant speed and load. The product is a MEMS part on a magnet
+      mount, duty-cycled, on a variable-load machine. That gap is unmeasured — closing it is
+      the next milestone.</p></div>
+    <div class="box ok"><h3>Closing this is cheap and mostly needs no hardware</h3><p>IMS sets 1
+      and 3 are already downloaded (+3 failures). XJTU-SY, PRONOSTIA/FEMTO, Paderborn and MFPT
+      take the run-to-failure count from 1 to ~35 and build a real healthy denominator.
+      Weeks of work, zero capex.</p></div>
+  </div>
+  <div class="foot"><span>Known limits</span><span>6</span></div>
+</section>
+
+<!-- 7 ─ market -->
+<section id="s7" class="slide">
+  <h2>Market — start in the Karaganda basin<small>Then Kazakhstan heavy industry, then CIS/EAEU</small></h2>
+  <div class="cols">
+    <div>
+      <p><strong>Anchor region.</strong> The Karaganda industrial basin is Kazakhstan's heavy-industry
+        core: integrated steel, coal mines, iron-ore and coal-prep plants — thousands of monitored
+        points of rotating equipment in non-explosive areas alone.</p>
+      <p><strong>Expand.</strong> Kazakhmys, Kazzinc, ERG, cement plants, power stations, oil &amp; gas
+        processing.</p>
+      <p><strong>Then CIS / EAEU</strong> — plants sharing the same equipment base, language, ERP (1C)
+        and certification regime.</p>
+    </div>
+    <div class="box acc">
+      <h3>The budget is proven — locally</h3>
+      <p style="margin-bottom:3mm">In March 2026 Qarmet (Temirtau) commissioned SPM Instrument's
+        Intellinova Parallel EN online monitoring plus RDI Iris M, announced as an industry first
+        for the region.</p>
+      <p style="margin-bottom:3mm"><strong>We read that as validation, not as a closed door.</strong>
+        A tier-1 plant just proved that predictive-maintenance budget exists in this basin and that
+        the buyer is sophisticated.</p>
+      <p>Our wedge is the tier <em>below</em> it: mid-market and legacy plants that will not sign a
+        six-figure foreign platform contract, and the un-instrumented balance of plant at the large
+        sites.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Market</span><span>7</span></div>
+</section>
+
+<!-- 8 ─ competition -->
+<section id="s8" class="slide dense">
+  <h2>Competitive map, honestly drawn<small>The technique is public domain; the incumbents are real</small></h2>
+  <table>
+    <tr><th>Tier</th><th>Who</th><th>Where they win</th><th>Where they leave room</th></tr>
+    <tr><td><strong>Premium platform</strong></td><td>Schaeffler OPTIME, SKF, Emerson, SPM, Augury</td>
+        <td>Tier-1 plants, full-service contracts, proven at scale</td>
+        <td>Price, contract size, English-first, remote support</td></tr>
+    <tr><td><strong>Commodity sensor</strong></td><td>Advantech (~$340/node), Chinese vendors ($33–189)</td>
+        <td>Unit price</td><td>No diagnosis — they ship numbers, not verdicts, and no local service</td></tr>
+    <tr><td><strong>RU/CIS vendors</strong></td><td>Auton, НПЦ Динамика, Вибро-Центр, ДИАМЕХ</td>
+        <td>Russian language, EAEU certification, some already KZ-registered</td>
+        <td>Not Kazakhstan-resident; no KZ local-content status; Kazakh-language support</td></tr>
+    <tr><td><strong>Us</strong></td><td>Bearing Health Monitor</td>
+        <td>Explainable per-element diagnosis, KZ residency, RU/KZ, on-site, mid-market pricing</td>
+        <td>No revenue, no field deployment, no certification — yet</td></tr>
+  </table>
+  <div class="box warn" style="margin-top:6mm">
+    <h3>The moat is not the algorithm</h3>
+    <p>Envelope analysis is public-domain literature (Balderston 1969 → McFadden &amp; Smith 1984 →
+      Antoni 2007), and the patent that inspired this project expired in 2013. What compounds is
+      <strong>local presence, per-plant failure data, and the relationships</strong> — not the DSP.
+      We would rather state that than pretend otherwise.</p>
+  </div>
+  <div class="foot"><span>Competition</span><span>8</span></div>
+</section>
+
+<!-- 9 ─ GTM -->
+<section id="s9" class="slide">
+  <h2>Go to market: earn the right to sell hardware<small>Cash and evidence before capex and certification</small></h2>
+  <div class="cols3" style="flex:1;align-items:stretch">
+    <div class="box ok">
+      <h3>1 · Paid diagnostics <span style="font-weight:400;color:#9a998f">— now</span></h3>
+      <p style="margin-bottom:2.5mm">Walk a plant with off-the-shelf instruments. Deliver a written
+        report per asset naming the failing element.</p>
+      <p style="margin-bottom:2.5mm"><strong>Revenue in weeks.</strong> No imports, no
+        certification, no customer capex.</p>
+      <p>Proves the two things that matter: will they pay, and can they act on a finding.</p>
+    </div>
+    <div class="box">
+      <h3>2 · Permanent nodes <span style="font-weight:400;color:#9a998f">— 6–12 mo</span></h3>
+      <p style="margin-bottom:2.5mm">Wire up the specific points where manual routes are impossible
+        or too slow, at plants already paying for reports.</p>
+      <p>Off-the-shelf sensors first. Recurring revenue per monitored point. Failure dataset starts
+        compounding.</p>
+    </div>
+    <div class="box">
+      <h3>3 · Own hardware <span style="font-weight:400;color:#9a998f">— 12–24 mo</span></h3>
+      <p style="margin-bottom:2.5mm">Locally assembled wireless node only once node volume justifies
+        certification and tooling.</p>
+      <p>Unlocks KZ local-content preference with state-linked buyers. Ex certification opens
+        underground mining.</p>
+    </div>
+  </div>
+  <p style="font-size:10pt;color:var(--mut);margin-top:5mm">Each stage is funded by the one before
+    it, and each answers a question that would otherwise be discovered expensively at the next
+    stage. The failure mode we are deliberately avoiding: becoming a small-scale importer-assembler
+    before knowing whether a plant will pay.</p>
+  <div class="foot"><span>Go to market</span><span>9</span></div>
+</section>
+
+<!-- 10 ─ risks -->
+<section id="s10" class="slide">
+  <h2>What could kill this<small>And what we are doing about each</small></h2>
+  <table>
+    <tr><th style="width:34%">Risk</th><th>Mitigation</th></tr>
+    <tr><td><strong>The customer cannot act on the alert</strong> — no spare, no planner, no crew,
+        so a warning creates no capturable value.</td>
+        <td>This is the first thing stage 1 tests, before any capex. If true, the business is
+        diagnosis + parts + repair, not a sensor — and we would rather learn that for $700 than
+        for $178k.</td></tr>
+    <tr><td><strong>Supply chain</strong> — Digi-Key and Mouser will not ship to Kazakhstan;
+        PJRC/SparkFun bar Teensy export.</td>
+        <td>Documented working routes (local importer, TME Poland, Chip One Stop). Stage 1 and 2
+        need no restricted parts at all; the exposure only begins at stage 3.</td></tr>
+    <tr><td><strong>Solo founder</strong> across embedded, DSP, cloud, sales and certification.</td>
+        <td>Actively seeking a commercial co-founder with plant relationships. This is the
+        constraint we rate highest.</td></tr>
+    <tr><td><strong>False alarms destroy trust</strong> — one bad page can end a pilot.</td>
+        <td>Sustained-crossing logic (3 consecutive captures) already ships. The false-alarm
+        denominator is the top engineering priority, and it is cheap to build.</td></tr>
+    <tr><td><strong>Incumbents bundle monitoring free</strong> to sell bearings and lubricants.</td>
+        <td>We do not compete on unit price with a loss-leader. We compete on being here, in
+        Russian and Kazakh, on legacy equipment the OEM does not care about.</td></tr>
+  </table>
+  <div class="foot"><span>Risks</span><span>10</span></div>
+</section>
+
+<!-- 11 ─ plan -->
+<section id="s11" class="slide dense">
+  <h2>Next 6 months<small>Sequenced so the cheapest business-killing question is answered first</small></h2>
+  <table>
+    <tr><th style="width:16%">When</th><th>Milestone</th><th style="width:30%">Question it answers</th></tr>
+    <tr><td class="n">Weeks 1–2</td><td>First paid diagnostic walkthrough at one Karaganda plant,
+        20–40 bearings, written report</td><td>Will anyone pay for the finding?</td></tr>
+    <tr><td class="n">Weeks 1–4</td><td>Field rig assembled and validated against a seeded defect
+        on a real machine</td><td>Does the MEMS chain see what the lab piezo chain saw?</td></tr>
+    <tr><td class="n">Weeks 3–8</td><td>Validation expanded to ~35 run-to-failure events; healthy
+        denominator built</td><td>What is the actual false-alarm rate and lead-time spread?</td></tr>
+    <tr><td class="n">Month 3</td><td>Commercial co-founder onboarded; AIFC entity registered</td>
+        <td>Can we sell, and are we investable?</td></tr>
+    <tr><td class="n">Months 3–6</td><td>Three paying plants on periodic diagnostics; first
+        permanent nodes at one of them</td><td>Does this recur, and does it scale past one
+        relationship?</td></tr>
+  </table>
+  <div class="box acc" style="margin-top:6mm">
+    <h3>What we want from an accelerator or first cheque</h3>
+    <p>Not primarily money. <strong>Introductions to plant maintenance directors</strong>, help
+      structuring a KZ/AIFC entity, and a commercial co-founder. The engineering risk on this
+      project is the part that is already retired.</p>
+  </div>
+  <div class="foot"><span>Plan</span><span>11</span></div>
+</section>
+
+<!-- 12 ─ close -->
+<section id="s12" class="slide title-slide">
+  <div class="rule"></div>
+  <h1 style="font-size:28pt">The physics works.<br>The open question is the customer.</h1>
+  <p class="lede" style="max-width:180mm">We have built and published the detection core, validated
+    it on public data, and stated exactly where the evidence stops. The next milestone is one plant
+    that pays — and that is what we are going after now.</p>
+  <div class="meta">
+    <b>Alibek Zhubekov</b><br>
+    alibek1991@gmail.com<br>
+    bearing-monitor.pages.dev · bearing-monitor.pages.dev/demo.html<br>
+    github.com/alibek-git/bearing-health-monitor
+  </div>
+  <div class="foot"><span>Thank you</span><span>12</span></div>
+</section>
+
+</body>
+</html>

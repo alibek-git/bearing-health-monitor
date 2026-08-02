@@ -9,11 +9,20 @@ Two modes:
 - **Baseline-free (screening).** Each element's defect comb is compared against the
   local noise floor of the envelope spectrum itself (harmonic SNR). Self-normalizing,
   so it transfers across machines/sensors/units without tuning. Cleanly catches race
-  faults (CWRU: outer 167x, inner 56x vs a healthy ceiling of ~3).
+  faults (CWRU @12k, shipped auto-band path: outer 141, inner 35, against the one
+  healthy record at 3.95).
 - **Baseline-relative (product mode).** Defect scores are compared against a stored
-  healthy capture of the *same* machine. Far more sensitive — it catches the weak,
-  smeared comb of a ball fault (CWRU: ~50x over baseline) that baseline-free mode
-  cannot. This is the mode the P0 field protocol and product trending use.
+  healthy capture of the *same* machine. Far more sensitive to *change* — it flags
+  the weak, smeared ball fault (CWRU 119: 26-50x over baseline) that baseline-free
+  mode only calls *suspect*. This is the mode the P0 field protocol and product
+  trending use.
+
+  **Known limitation — this mode detects change, not element.** On CWRU 119 all four
+  elements rise 26-50x together and the top-ranked element is BPFO, not BSF: broadband
+  level has moved, and the ratio ranking does not resolve which element moved it. Trust
+  ``element`` from the baseline-free ``snr`` ranking; treat a baseline-mode verdict as
+  "something on this bearing changed", and confirm the element from the envelope
+  spectrum before acting.
 
 Verdicts are three-zone (``healthy`` / ``suspect`` / ``faulted``), mirroring the
 alert/alarm levels of condition-monitoring practice.
@@ -112,8 +121,11 @@ def detect(f, amp, freqs, n_harmonics=4, warn=4.0, alarm=10.0,
     disable/pin it.
 
     Thresholds (``warn``/``alarm`` on harmonic SNR, ``warn_ratio``/``alarm_ratio``
-    on score-over-baseline) are calibrated on CWRU: healthy tops out ~3.3, race
-    faults reach 56-167. Tune conservatively per fleet; trends beat absolutes.
+    on score-over-baseline) are calibrated on CWRU under the shipped auto-band path:
+    race faults reach 35-141, and the single healthy record available reads **3.95**
+    against ``warn=4.0`` — a 1.2% margin, measured on n=1. That headroom is not yet
+    an established false-alarm rate; treat these defaults as provisional, re-measure
+    the healthy ceiling per fleet, and prefer trends over absolutes.
 
     Raises ``ValueError`` instead of guessing when the verdict would be built on
     no evidence: a non-finite spectrum (dropped samples / sensor glitch), every
