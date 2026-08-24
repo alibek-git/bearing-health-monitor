@@ -1,8 +1,14 @@
 # Bearing-Health Monitor  *(working name — rename freely)*
 
-Retrofittable wireless vibration sensing + edge analytics that predicts rolling-element
-**bearing failure weeks ahead**, for heavy industry — assembled and supported locally in
-Kazakhstan, starting with the Karaganda industrial basin (Qarmet and peers).
+Retrofittable wireless vibration sensing + edge analytics that names the failing
+rolling-element bearing before it stops the line — **a sustained alarm ~2.5 days ahead**
+on the one run-to-failure event validated so far — for heavy industry, assembled and
+supported locally in Kazakhstan, starting with the Karaganda industrial basin (Qarmet
+and peers).
+
+*Measured on one bearing on one test rig (NASA IMS set 2). Longer lead times are
+expected from the failure physics but are not validated here; see
+[what this evidence does not support](analysis/README.md#what-this-evidence-does-not-support).*
 
 This repo is the product. The thesis, market, build plan (import / assemble / code),
 go-to-market, unit economics, risks, and the **P0 technical spec** live in
@@ -13,7 +19,7 @@ go-to-market, unit economics, risks, and the **P0 technical spec** live in
 **P0 Step 1 (public-data validation): done.** On the CWRU 1772-rpm drive-end sets
 (12 kHz *and* 48 kHz) the detector reads the normal file *healthy* — including
 under the automatic band search — and identifies every **race** fault baseline-free
-with the correct element (comb SNR 15–141). **Ball faults are not solved:** they read
+with the correct element (comb SNR 14.8–141). **Ball faults are not solved:** they read
 *suspect* at best baseline-free, and while the baseline-relative mode does flag CWRU
 119 as changed (26–50×), it ranks the wrong element (BPFO, truth = ball). Physics-line
 scoring (2×BSF ± FTF, BPFI ± fr) and a matched kurtogram band picker included. Details
