@@ -57,12 +57,21 @@ det["verdict"], det["element"]        # e.g. ("faulted", "BPFO")
 | file | truth | baseline-free verdict | comb SNR |
 |---|---|---|---|
 | 98 @12k | normal | healthy — but at **3.95 against `warn=4.0`** (see below) | max **3.95** |
-| 106 @12k | inner race | **faulted — BPFI** | 35 |
-| 131 @12k | outer race | **faulted — BPFO** | 141 |
-| 110 @48k | inner race | **faulted — BPFI** | 15–20 |
-| 136 @48k | outer race | **faulted — BPFO** | 39 |
+| 106 @12k | inner race | **faulted — BPFI** | 34.9 |
+| 131 @12k | outer race | **faulted — BPFO** | 141.2 |
+| 110 @48k | inner race | **faulted — BPFI** | 14.8 |
+| 136 @48k | outer race | **faulted — BPFO** | 39.6 |
 | 119 @12k | ball | suspect (auto-band); with `baseline=` flags a change (26–50×) but ranks the **wrong element** (BPFO) | 6.1 |
-| 123 @48k | ball | **known miss** baseline-free — needs a baseline capture | 2.2 |
+| 123 @48k | ball | **known miss** baseline-free — needs a baseline capture | 2.37 |
+
+The SNR column is the **highest comb SNR of the four elements**, as printed by
+`scripts/validate_cwru.py --auto-band` on the shipped default path (matched kurtogram
+band + `slip="auto"`); re-measured 2026-08-24. The pipeline is deterministic, so these
+reproduce exactly — a number that does not match is a stale doc, not run-to-run
+variance. Two were stale from a superseded configuration and are corrected here:
+**110 @48k** was quoted as 15–20 (actual **14.8** — below the old range, and the
+weakest race-fault margin in the set at 1.48× alarm), and **123 @48k** as 2.2 (actual
+**2.37**). 136 @48k was quoted as 39 (actual **39.6**).
 
 **The healthy ceiling is 3.95, not 3.5.** Earlier revisions of this table quoted 3.5
 from a weaker configuration than the detector actually runs. Under the shipped

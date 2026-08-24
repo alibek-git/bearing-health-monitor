@@ -2,9 +2,15 @@
 
 **One-liner:** A retrofittable wireless sensor kit + edge-AI software that bolts onto
 existing rotating machinery (motors, pumps, fans, gearboxes, conveyors, mill stands)
-and predicts bearing failure weeks before it happens — assembled and supported locally
-in Kazakhstan, sold first to Karaganda heavy industry.
+and names the failing bearing before it stops the line — assembled and supported
+locally in Kazakhstan, sold first to Karaganda heavy industry.
 
+- **Measured lead time:** a sustained alarm **~2.5 days** before the bearing dies, and
+  ~2 days before its neighbours on the same shaft — measured on **one bearing on one
+  test rig** (NASA IMS set 2, n=1). Longer lead times are expected from the failure
+  physics ([§1](#1-problem)) but are not validated here, and n=1 supports no
+  lead-time distribution and no false-alarm rate. Limits stated in full in
+  [`../analysis/README.md`](../analysis/README.md#what-this-evidence-does-not-support).
 - **Source:** `Patents — Industrial Software` pool, **`US-7599804-B2`** — "Method for
   detecting structure-borne noise events in a roller bearing" (`G01M13/045`, FAG
   Kugelfischer AG / now Schaeffler, inventor Alfred Pecher; expired 2013). Promise 7 /
@@ -23,8 +29,13 @@ in Kazakhstan, sold first to Karaganda heavy industry.
 
 Unplanned downtime from bearing failure is one of the largest avoidable costs in heavy
 industry. Rolling-element bearings fail progressively (microscopic spalling → defect
-frequencies → heat → seizure), and the failure is **detectable weeks in advance** via
-vibration — yet most mid-tier and older plants still run reactive or fixed-interval
+frequencies → heat → seizure), and **the condition-monitoring literature holds that
+the failure is detectable weeks in advance** via vibration. That long lead time is the
+standing claim of that literature — the envelope-analysis / HFRT lineage this detector
+sits in, catalogued in [`patent-provenance.md`](patent-provenance.md) — and **not** a
+figure measured in this repo: our own measured lead time is ~2.5 days on a single
+run-to-failure event ([`../analysis/README.md`](../analysis/README.md#what-this-evidence-does-not-support)).
+Either way, most mid-tier and older plants still run reactive or fixed-interval
 maintenance. A single unplanned stop on a critical line (a blast-furnace blower, a
 rolling-mill stand, a main pump) can cost tens of thousands of dollars per hour plus
 collateral damage and safety risk.
