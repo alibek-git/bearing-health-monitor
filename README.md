@@ -41,9 +41,13 @@ mechanic the product ships with.
 > physics works; not yet enough to quote a false-alarm rate or a lead-time
 > distribution to a buyer. See [`analysis/README.md`](analysis/README.md#what-this-evidence-does-not-support).
 
-**Next:** P0 Step 2 — the field rig on one real machine
-(see [`docs/p0-bom.md`](docs/p0-bom.md); Teensy on back-order), and
-`record_teensy.py` so the rig streams straight into this pipeline.
+**Next:** P0 Step 2 — the field rig on one real machine. The electronics
+arrived **2026-09-11** (see [`docs/p0-bom.md`](docs/p0-bom.md)), and both halves
+of the capture path are already written and host-side tested:
+[`firmware/p0_sampler`](firmware/p0_sampler/p0_sampler.ino) (51.2 kSPS, framed
+blocks over USB) and [`scripts/record_teensy.py`](scripts/record_teensy.py)
+(parse → verify → save → score). **Neither has yet seen a real accelerometer** —
+hardware bring-up is the current task.
 
 ## Layout
 

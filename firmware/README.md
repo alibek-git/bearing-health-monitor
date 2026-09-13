@@ -31,10 +31,18 @@ capture keeps it at 0. Host side: `scripts/record_teensy.py` (parses, verifies
 checksums + sequence continuity, saves .npy + sidecar JSON, and scores the
 capture with the full detector on the spot).
 
-**Not yet run on hardware** — the Teensy is on back-order (see
-[`docs/p0-bom.md`](../docs/p0-bom.md)). The wire protocol itself is
+**Not yet run on hardware.** The Teensy 4.1 and EVAL-ADXL1002Z arrived
+**2026-09-11** (see [`docs/p0-bom.md`](../docs/p0-bom.md)) and bring-up is in
+progress — nothing here has sampled a real accelerometer yet, so every number
+this sketch produces is still theoretical. The wire protocol itself is
 regression-tested host-side (`tests/test_record.py`), including an end-to-end
 synthetic-fault → frames → verdict test.
+
+Bring-up order: (1) Blink, to prove the board and the toolchain; (2) three
+wires (`VOUT→A0`, `VDD→3V3`, `GND→GND`) and a slow DC read — rotating the
+sensor through gravity must swing the reading by 2 g ≈ 53 mV ≈ 65 ADC counts,
+which proves the whole analog chain against a known input; (3) this sketch at
+full rate, with `record_teensy.py` reporting `dropped == 0`.
 
 ## Roadmap
 P2 node: low-power MCU (STM32L / nRF52) + ADXL1002 + sub-GHz/LoRa radio + multi-year
