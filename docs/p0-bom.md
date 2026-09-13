@@ -177,7 +177,7 @@ capture:
 
 | Item | Why it matters | Link | Price |
 |---|---|---|---|
-| **USB-C → micro-B cable, 1 m** | The Teensy 4.1's socket is **micro-B**, and the laptop is USB-C. It must be a **data** cable: the cheap 3-in-1 "charging" cables often have no data pair at all, and the failure looks exactly like a dead board | [Ugreen 30875](https://kaspi.kz/shop/p/kabel-ugreen-micro-usb---usb-type-c-1-m-30875-139895928/) | 1 902 ₸ |
+| **USB-A → micro-B cable, 1 m** | The Teensy 4.1's socket is **micro-B**. It must be a **data** cable: the cheap multi-head "charging" cables often have no data pair at all, and the failure looks exactly like a dead board. The MacBook is USB-C, so it goes through the USB-C↔USB-A adapter we already have — check the drawer first, any old Android/power-bank cable works | [Ugreen US289 60136](https://kaspi.kz/shop/p/kabel-ugreen-usb-2-0-m-micro-usb-2-0-m-1-m-us289-60136-chernyi-115589082/) | 902 ₸ |
 | **Temperature-controlled iron, ~60 W** | Three wires onto a 64 900 ₸ Teensy and a 118 780 ₸ eval board. An unregulated iron runs to 400 °C+ and lifting one pad costs more than the whole tool | [adjustable 60 W / 450 °C](https://kaspi.kz/shop/p/pajal-nik-s-regulirovkoi-temperatury-450-s-60-vt-220-v-135318110/) · [Lefavor T12+ station](https://kaspi.kz/shop/p/lefavor-pajal-naja-stantsija-t12--118207745/) | 3 500 ₸ / 19 000 ₸ |
 | **Rosin-core solder, 0.8 mm** | 1 mm is too coarse for these pads | [KAINA 0.8 mm, 50 g](https://kaspi.kz/shop/p/kaina-mjagkii-legkoplavkii-provoloka-s-fljusom-kanifol-ju-d-0-8-mm-50-g-solder-115732669/) | 1 771 ₸ |
 
