@@ -145,12 +145,15 @@ items `required: false`.
 > ADXL1002 eval board alone is now ~$106. The full working setup including the
 > seeded-defect bench lands at ~$300 — still firmly in P0 territory.
 
-## ✅ ORDER PLACED (2026-07-15) — RadioMart, КП №210414 от 14.07.2026
+## ✅ ORDERED 2026-07-15 · **RECEIVED 2026-09-11** — RadioMart, КП №210414
 
 50% prepaid **98 715 ₸** (bank transfer to ИП RADIOMART.KZ, receipt kept);
 remainder **98 715 ₸ due on pickup** in Karaganda. Paid as an individual
 (физлицо); упрощёнка discount applied (Teensy 84 370 → 64 900 ₸, ~23%).
-**ETA: possibly ~3 weeks (owner's estimate), worst case 5–6.**
+**Received 2026-09-11**, collected in Karaganda, balance paid in full. The
+stock arrived on RadioMart's original ~3-week estimate; the gap to September was
+our own second installment, **not** a supplier delay — they delivered as quoted.
+All six line items in hand.
 
 | Позиция | Кол-во | Сумма, ₸ |
 |---|---|---|
@@ -167,9 +170,20 @@ drives VOUT past the Teensy ADC limit); solder wires, no plug-in headers on
 the rig (vibration loosens sockets); Teensy needs two **1×24 single-row**
 strips only if breadboarding first; ADXL P1/P2 ship unpopulated.
 
-Still to buy (all local, cheap): bench per [p0-bench.md](p0-bench.md);
-optional PLS 2.54 header strips + neodymium magnet (scan-only mount — rolls
-off ~2 kHz; the measurement mount is Loctite 401 / stud).
+## Still to buy — bring-up (local, Kaspi / Караганда, prices 2026-09-13)
+
+None of this rode with the RadioMart order, and all of it gates the first
+capture:
+
+| Item | Why it matters | Link | Price |
+|---|---|---|---|
+| **USB-C → micro-B cable, 1 m** | The Teensy 4.1's socket is **micro-B**, and the laptop is USB-C. It must be a **data** cable: the cheap 3-in-1 "charging" cables often have no data pair at all, and the failure looks exactly like a dead board | [Ugreen 30875](https://kaspi.kz/shop/p/kabel-ugreen-micro-usb---usb-type-c-1-m-30875-139895928/) | 1 902 ₸ |
+| **Temperature-controlled iron, ~60 W** | Three wires onto a 64 900 ₸ Teensy and a 118 780 ₸ eval board. An unregulated iron runs to 400 °C+ and lifting one pad costs more than the whole tool | [adjustable 60 W / 450 °C](https://kaspi.kz/shop/p/pajal-nik-s-regulirovkoi-temperatury-450-s-60-vt-220-v-135318110/) · [Lefavor T12+ station](https://kaspi.kz/shop/p/lefavor-pajal-naja-stantsija-t12--118207745/) | 3 500 ₸ / 19 000 ₸ |
+| **Rosin-core solder, 0.8 mm** | 1 mm is too coarse for these pads | [KAINA 0.8 mm, 50 g](https://kaspi.kz/shop/p/kaina-mjagkii-legkoplavkii-provoloka-s-fljusom-kanifol-ju-d-0-8-mm-50-g-solder-115732669/) | 1 771 ₸ |
+
+Then: bench per [p0-bench.md](p0-bench.md); optional PLS 2.54 header strips +
+neodymium magnet (scan-only mount — rolls off ~2 kHz; the measurement mount is
+Loctite 401 / stud).
 
 Historical notes: all US/EU direct routes confirmed closed (Digi-Key geo-block,
 Mouser checkout has no KZ, PJRC export bar, Electrokit EU-only). Customs rides
